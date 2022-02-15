@@ -23,6 +23,19 @@
     "header_banner": {
       "type": "string",
       "required": true
+    },
+    "feature_products": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::product.product"
+    },
+    "new_products_banners": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": true,
+      "required": true
     }
   }
 }

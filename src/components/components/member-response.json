@@ -2,19 +2,18 @@
   "collectionName": "components_components_member_responses",
   "info": {
     "displayName": "Member Response",
-    "icon": "users"
+    "icon": "users",
+    "description": ""
   },
   "options": {},
   "attributes": {
     "avatar": {
-      "allowedTypes": [
-        "images",
-        "files",
-        "videos"
-      ],
       "type": "media",
       "multiple": false,
-      "required": true
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
     },
     "description": {
       "type": "text",
