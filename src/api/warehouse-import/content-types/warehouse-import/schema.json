@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "warehouse_imports",
+  "info": {
+    "singularName": "warehouse-import",
+    "pluralName": "warehouse-imports",
+    "displayName": "Warehouse Import",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "branch": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::branch.branch",
+      "inversedBy": "warehouse_imports"
+    },
+    "code": {
+      "type": "string",
+      "required": true
+    },
+    "note": {
+      "type": "richtext"
+    },
+    "products": {
+      "type": "component",
+      "repeatable": true,
+      "component": "components.product-with-quantity",
+      "required": true
+    }
+  }
+}

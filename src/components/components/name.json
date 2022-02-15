@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_components_names",
+  "info": {
+    "displayName": "Name",
+    "icon": "user"
+  },
+  "options": {},
+  "attributes": {
+    "firstname": {
+      "type": "string",
+      "required": true
+    },
+    "lastname": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

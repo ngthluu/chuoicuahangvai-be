@@ -1,0 +1,28 @@
+{
+  "kind": "singleType",
+  "collectionName": "homepages",
+  "info": {
+    "singularName": "homepage",
+    "pluralName": "homepages",
+    "displayName": "Homepage",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "signup_section": {
+      "type": "richtext"
+    },
+    "member_responses": {
+      "type": "component",
+      "repeatable": true,
+      "component": "components.member-response"
+    },
+    "header_banner": {
+      "type": "string",
+      "required": true
+    }
+  }
+}

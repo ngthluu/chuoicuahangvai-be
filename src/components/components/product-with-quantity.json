@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_components_product_with_quantities",
+  "info": {
+    "displayName": "Product With Quantity",
+    "icon": "warehouse"
+  },
+  "options": {},
+  "attributes": {
+    "product": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::product.product"
+    },
+    "quantity": {
+      "type": "integer",
+      "required": true
+    }
+  }
+}

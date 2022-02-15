@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "branches",
+  "info": {
+    "singularName": "branch",
+    "pluralName": "branches",
+    "displayName": "Branch",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "address": {
+      "type": "component",
+      "repeatable": false,
+      "component": "components.address"
+    },
+    "warehouse_imports": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::warehouse-import.warehouse-import",
+      "mappedBy": "branch"
+    },
+    "warehouse_exports": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::warehouse-export.warehouse-export",
+      "mappedBy": "branch"
+    }
+  }
+}

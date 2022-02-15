@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "warehouse_exports",
+  "info": {
+    "singularName": "warehouse-export",
+    "pluralName": "warehouse-exports",
+    "displayName": "Warehouse Export",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "code": {
+      "type": "string",
+      "required": true
+    },
+    "note": {
+      "type": "richtext"
+    },
+    "branch": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::branch.branch",
+      "inversedBy": "warehouse_exports"
+    },
+    "products": {
+      "type": "component",
+      "repeatable": true,
+      "component": "components.product-with-quantity",
+      "required": true
+    }
+  }
+}
