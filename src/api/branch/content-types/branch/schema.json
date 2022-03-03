@@ -32,6 +32,12 @@
       "relation": "oneToMany",
       "target": "api::warehouse-export.warehouse-export",
       "mappedBy": "branch"
+    },
+    "manager": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "branch"
     }
   }
 }

@@ -11,17 +11,10 @@
       "type": "string",
       "required": false
     },
-    "ward": {
-      "type": "string",
-      "required": true
-    },
-    "district": {
-      "type": "string",
-      "required": true
-    },
-    "city": {
-      "type": "string",
-      "required": true
+    "three_levels": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::address.address"
     }
   }
 }
