@@ -11,7 +11,7 @@
       "type": "string",
       "required": false
     },
-    "three_levels": {
+    "address_three_levels": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::address.address"
