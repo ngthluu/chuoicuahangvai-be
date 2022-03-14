@@ -9,7 +9,8 @@
   "attributes": {
     "address": {
       "type": "string",
-      "required": false
+      "required": true,
+      "minLength": 1
     },
     "address_three_levels": {
       "type": "relation",

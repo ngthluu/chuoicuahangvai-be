@@ -44,19 +44,19 @@ module.exports = () => ({
 
     async listAllWardsOfDistrict(district, city) {
         const data = await strapi.db.query('api::address.address').findMany({
-            select: ['ward'],
+            select: ['id', 'ward'],
             where: { district: district, city: city },
             orderBy: { ward: 'asc' },
         });
         let hashTable = {};
         data.forEach(item => {
             if (!hashTable.hasOwnProperty(item.ward)) {
-                hashTable[item.ward] = true;
+                hashTable[item.ward] = item.id;
             }
         });
         let response = [];
-        for (const [key, value] of Object.entries(hashTable)) {
-            response.push(key);
+        for (const [label, value] of Object.entries(hashTable)) {
+            response.push({value: value, label: label});
         }
         return response;
     },

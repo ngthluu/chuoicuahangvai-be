@@ -63,11 +63,11 @@
       "inversedBy": "users",
       "configurable": false
     },
-    "branch": {
+    "branches": {
       "type": "relation",
-      "relation": "oneToOne",
+      "relation": "oneToMany",
       "target": "api::branch.branch",
-      "inversedBy": "manager"
+      "mappedBy": "manager"
     }
   }
 }

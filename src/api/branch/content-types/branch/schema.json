@@ -14,12 +14,14 @@
   "attributes": {
     "name": {
       "type": "string",
-      "required": true
+      "required": true,
+      "minLength": 1
     },
     "address": {
       "type": "component",
       "repeatable": false,
-      "component": "components.address"
+      "component": "components.address",
+      "required": true
     },
     "warehouse_imports": {
       "type": "relation",
@@ -35,9 +37,9 @@
     },
     "manager": {
       "type": "relation",
-      "relation": "oneToOne",
+      "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
-      "inversedBy": "branch"
+      "inversedBy": "branches"
     }
   }
 }
