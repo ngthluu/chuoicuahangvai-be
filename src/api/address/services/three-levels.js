@@ -8,6 +8,7 @@ module.exports = () => ({
     async listAllCity(...args) {
         const data = await strapi.db.query('api::address.address').findMany({
             select: ['city'],
+            orderBy: { city: 'asc' },
         });
         let hashTable = {};
         data.forEach(item => {
@@ -26,6 +27,7 @@ module.exports = () => ({
         const data = await strapi.db.query('api::address.address').findMany({
             select: ['district'],
             where: { city: city },
+            orderBy: { district: 'asc' },
         });
         let hashTable = {};
         data.forEach(item => {
@@ -44,6 +46,7 @@ module.exports = () => ({
         const data = await strapi.db.query('api::address.address').findMany({
             select: ['ward'],
             where: { district: district, city: city },
+            orderBy: { ward: 'asc' },
         });
         let hashTable = {};
         data.forEach(item => {

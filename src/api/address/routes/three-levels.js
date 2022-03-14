@@ -2,7 +2,7 @@ module.exports = {
     routes: [
         {
             method: 'GET',
-            path: '/city',
+            path: '/cities',
             handler: 'three-levels.listAllCity',
         },
         {
