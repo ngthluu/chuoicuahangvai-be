@@ -15,12 +15,6 @@
       "type": "string",
       "required": true,
       "unique": true
-    },
-    "buyer": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::customer.customer",
-      "inversedBy": "orders"
     }
   }
 }

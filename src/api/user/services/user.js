@@ -7,10 +7,12 @@
 module.exports = () => ({
     async fetchAll(params, populate) {
         return strapi.query('plugin::users-permissions.user').findMany({
-            select: ['id', 'phone', 'blocked'],
+            select: ['id', 'username', 'email', 'blocked'],
             where: {
                 role: {
-                    name: 'Customer'
+                    name: {
+                        $notIn: ['Super Admin']
+                    }
                 },
                 ...params
             },

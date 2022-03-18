@@ -68,6 +68,21 @@
       "relation": "oneToMany",
       "target": "api::branch.branch",
       "mappedBy": "manager"
+    },
+    "address": {
+      "type": "component",
+      "repeatable": false,
+      "component": "components.address"
+    },
+    "phone": {
+      "type": "string",
+      "minLength": 9,
+      "maxLength": 15
+    },
+    "name": {
+      "type": "component",
+      "repeatable": false,
+      "component": "components.name"
     }
   }
 }

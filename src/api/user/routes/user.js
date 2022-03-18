@@ -2,8 +2,8 @@ module.exports = {
   routes: [
     {
      method: 'GET',
-     path: '/customer',
-     handler: 'customer.find',
+     path: '/user',
+     handler: 'user.find',
      config: {
        policies: [],
        middlewares: [],
