@@ -56,6 +56,12 @@
       "relation": "manyToOne",
       "target": "api::product-width.product-width",
       "inversedBy": "product_skus"
+    },
+    "origin": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::product-origin.product-origin",
+      "inversedBy": "product_skus"
     }
   }
 }
