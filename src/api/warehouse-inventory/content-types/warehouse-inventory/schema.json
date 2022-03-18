@@ -12,10 +12,11 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "product": {
+    "sku_quantity": {
       "type": "component",
       "repeatable": false,
-      "component": "components.product-with-quantity"
+      "component": "components.sku-with-quantity",
+      "required": true
     }
   }
 }

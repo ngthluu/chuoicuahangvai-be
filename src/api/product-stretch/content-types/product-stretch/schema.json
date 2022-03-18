@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "product_stretches",
+  "info": {
+    "singularName": "product-stretch",
+    "pluralName": "product-stretches",
+    "displayName": "Product Stretch"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "product_skus": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::product-sku.product-sku",
+      "mappedBy": "stretch"
+    }
+  }
+}

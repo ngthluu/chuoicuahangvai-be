@@ -4,7 +4,8 @@
   "info": {
     "singularName": "product",
     "pluralName": "products",
-    "displayName": "Product"
+    "displayName": "Product",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -14,6 +15,18 @@
     "name": {
       "type": "string",
       "required": true
+    },
+    "category": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::product-category.product-category",
+      "inversedBy": "products"
+    },
+    "product_skus": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::product-sku.product-sku",
+      "mappedBy": "product"
     }
   }
 }

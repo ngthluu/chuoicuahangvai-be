@@ -1,15 +1,15 @@
 {
-  "collectionName": "components_components_product_with_quantities",
+  "collectionName": "components_components_sku_with_quantities",
   "info": {
-    "displayName": "Product With Quantity",
-    "icon": "warehouse"
+    "displayName": "SKU with quantity",
+    "icon": "pastafarianism"
   },
   "options": {},
   "attributes": {
-    "product": {
+    "sku": {
       "type": "relation",
       "relation": "oneToOne",
-      "target": "api::product.product"
+      "target": "api::product-sku.product-sku"
     },
     "quantity": {
       "type": "integer",

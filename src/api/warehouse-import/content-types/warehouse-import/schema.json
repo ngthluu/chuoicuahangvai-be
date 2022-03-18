@@ -28,8 +28,7 @@
     "products": {
       "type": "component",
       "repeatable": true,
-      "component": "components.product-with-quantity",
-      "required": true
+      "component": "components.sku-with-quantity"
     }
   }
 }

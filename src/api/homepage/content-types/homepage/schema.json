@@ -24,18 +24,18 @@
       "type": "string",
       "required": true
     },
-    "feature_products": {
+    "features_sku": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::product.product"
+      "target": "api::product-sku.product-sku"
     },
     "new_products_banners": {
-      "allowedTypes": [
-        "images"
-      ],
       "type": "media",
       "multiple": true,
-      "required": true
+      "required": true,
+      "allowedTypes": [
+        "images"
+      ]
     }
   }
 }
