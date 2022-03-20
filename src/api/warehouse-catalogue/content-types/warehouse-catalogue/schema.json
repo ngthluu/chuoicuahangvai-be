@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "warehouse_catalogues",
+  "info": {
+    "singularName": "warehouse-catalogue",
+    "pluralName": "warehouse-catalogues",
+    "displayName": "Warehouse Catalogue",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "branch": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::branch.branch",
+      "inversedBy": "warehouse_catalogues"
+    },
+    "code": {
+      "type": "string",
+      "required": true
+    },
+    "note": {
+      "type": "richtext"
+    },
+    "products": {
+      "type": "component",
+      "repeatable": true,
+      "component": "components.sku-with-quantity"
+    },
+    "submit_time": {
+      "type": "datetime"
+    },
+    "submit_user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "submit_status": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

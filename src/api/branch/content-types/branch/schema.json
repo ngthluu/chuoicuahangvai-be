@@ -40,6 +40,12 @@
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
       "inversedBy": "branches"
+    },
+    "warehouse_catalogues": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::warehouse-catalogue.warehouse-catalogue",
+      "mappedBy": "branch"
     }
   }
 }
