@@ -4,7 +4,8 @@
   "info": {
     "singularName": "product-pattern",
     "pluralName": "product-patterns",
-    "displayName": "Product Pattern"
+    "displayName": "Product Pattern",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -13,7 +14,8 @@
   "attributes": {
     "name": {
       "type": "string",
-      "required": true
+      "required": true,
+      "unique": true
     },
     "product_skus": {
       "type": "relation",

@@ -4,7 +4,8 @@
   "info": {
     "singularName": "product-stretch",
     "pluralName": "product-stretches",
-    "displayName": "Product Stretch"
+    "displayName": "Product Stretch",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -13,7 +14,8 @@
   "attributes": {
     "name": {
       "type": "string",
-      "required": true
+      "required": true,
+      "unique": true
     },
     "product_skus": {
       "type": "relation",

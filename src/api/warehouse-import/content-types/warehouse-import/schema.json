@@ -29,6 +29,18 @@
       "type": "component",
       "repeatable": true,
       "component": "components.sku-with-quantity"
+    },
+    "submit_time": {
+      "type": "datetime"
+    },
+    "submit_user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "submit_status": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
