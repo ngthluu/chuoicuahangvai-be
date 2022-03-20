@@ -27,6 +27,9 @@
       "relation": "oneToMany",
       "target": "api::product-sku.product-sku",
       "mappedBy": "product"
+    },
+    "description": {
+      "type": "richtext"
     }
   }
 }

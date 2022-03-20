@@ -11,7 +11,7 @@ module.exports = () => ({
             where: {
                 role: {
                     name: {
-                        $notIn: ['Super Admin']
+                        $notIn: ['Super Admin', 'Customer']
                     }
                 },
                 ...params
