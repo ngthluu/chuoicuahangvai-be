@@ -11,7 +11,7 @@ module.exports = () => ({
             where: { id: id },
             data: {
                 name: name,
-                category: category,
+                category: category !== '' ? category : null,
                 description: description,
             }
         });
