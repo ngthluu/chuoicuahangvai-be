@@ -19,10 +19,10 @@ module.exports = () => ({
             price: skuItem.attributes.price,
             color: skuItem.attributes.color,
             product: product.id,
-            origin: skuItem.attributes.origin.data.id,
-            width: skuItem.attributes.width.data.id,
-            stretch: skuItem.attributes.stretch.data.id,
-            pattern: skuItem.attributes.pattern.data.id,
+            origin: skuItem.attributes.origin.data ? skuItem.attributes.origin.data.id : null,
+            width: skuItem.attributes.width.data ? skuItem.attributes.width.data.id : null,
+            stretch: skuItem.attributes.stretch.data ? skuItem.attributes.stretch.data.id : null,
+            pattern: skuItem.attributes.pattern.data ? skuItem.attributes.pattern.data.id : null,
         }))
         for (const sku of skus) {
             await strapi.db.query('api::product-sku.product-sku').create({ data: sku });
