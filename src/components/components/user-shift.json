@@ -1,0 +1,47 @@
+{
+  "collectionName": "components_components_user_shifts",
+  "info": {
+    "displayName": "User Shift",
+    "icon": "calendar-times",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "monday": {
+      "displayName": "User Shift Item",
+      "type": "component",
+      "repeatable": false,
+      "component": "components.user-shift-item"
+    },
+    "tuesday": {
+      "type": "component",
+      "repeatable": false,
+      "component": "components.user-shift-item"
+    },
+    "wednesday": {
+      "type": "component",
+      "repeatable": false,
+      "component": "components.user-shift-item"
+    },
+    "thursday": {
+      "type": "component",
+      "repeatable": false,
+      "component": "components.user-shift-item"
+    },
+    "friday": {
+      "type": "component",
+      "repeatable": false,
+      "component": "components.user-shift-item"
+    },
+    "saturday": {
+      "type": "component",
+      "repeatable": false,
+      "component": "components.user-shift-item"
+    },
+    "sunday": {
+      "type": "component",
+      "repeatable": false,
+      "component": "components.user-shift-item"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_components_user_shift_items",
+  "info": {
+    "displayName": "User Shift Item",
+    "icon": "times",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "morning": {
+      "type": "boolean",
+      "default": false
+    },
+    "afternoon": {
+      "type": "boolean",
+      "default": false
+    },
+    "night": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

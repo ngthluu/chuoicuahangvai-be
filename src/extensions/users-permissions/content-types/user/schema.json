@@ -83,6 +83,11 @@
       "type": "component",
       "repeatable": false,
       "component": "components.name"
+    },
+    "shift": {
+      "type": "component",
+      "repeatable": false,
+      "component": "components.user-shift"
     }
   }
 }
