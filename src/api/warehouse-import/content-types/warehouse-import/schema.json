@@ -18,10 +18,6 @@
       "target": "api::branch.branch",
       "inversedBy": "warehouse_imports"
     },
-    "code": {
-      "type": "string",
-      "required": true
-    },
     "note": {
       "type": "richtext"
     },
