@@ -12,11 +12,10 @@
       "relation": "oneToOne",
       "target": "api::product-sku.product-sku"
     },
-    "quantity": {
-      "type": "integer",
-      "required": true
-    },
     "length": {
+      "type": "integer"
+    },
+    "quantity": {
       "type": "integer"
     }
   }
