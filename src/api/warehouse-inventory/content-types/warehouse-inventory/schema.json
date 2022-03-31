@@ -17,6 +17,12 @@
       "repeatable": false,
       "component": "components.sku-with-quantity",
       "required": true
+    },
+    "branch": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::branch.branch",
+      "inversedBy": "warehouse_inventories"
     }
   }
 }

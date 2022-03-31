@@ -46,6 +46,12 @@
       "relation": "oneToMany",
       "target": "api::warehouse-catalogue.warehouse-catalogue",
       "mappedBy": "branch"
+    },
+    "warehouse_inventories": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::warehouse-inventory.warehouse-inventory",
+      "mappedBy": "branch"
     }
   }
 }

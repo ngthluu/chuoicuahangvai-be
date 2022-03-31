@@ -19,7 +19,8 @@ module.exports = () => ({
                             sku: item.sku.id,
                             length: item.length,
                             quantity: 1,
-                        }
+                        },
+                        branch: importData.branch.id,
                     }
                 });
             }
