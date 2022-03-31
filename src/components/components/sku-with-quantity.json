@@ -16,7 +16,7 @@
       "type": "integer",
       "required": true
     },
-    "new_quantity": {
+    "length": {
       "type": "integer"
     }
   }
