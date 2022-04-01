@@ -8,7 +8,7 @@ module.exports = () => ({
     async submitImport(id, userId) {
         const importData = await strapi.entityService.findOne('api::warehouse-import.warehouse-import', id, {
             fields: ['id', 'note'],
-            populate: ['branch', 'products', 'products', 'products.sku'],
+            populate: ['branch', 'products', 'products.sku'],
         });
         // Update data to inventory table
         importData.products.forEach(item => {
