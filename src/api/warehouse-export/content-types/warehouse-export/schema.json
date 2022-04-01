@@ -12,10 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "code": {
-      "type": "string",
-      "required": true
-    },
     "note": {
       "type": "richtext"
     },
@@ -24,12 +20,6 @@
       "relation": "manyToOne",
       "target": "api::branch.branch",
       "inversedBy": "warehouse_exports"
-    },
-    "products": {
-      "type": "component",
-      "repeatable": true,
-      "component": "components.sku-with-quantity",
-      "required": true
     },
     "submit_time": {
       "type": "datetime"
@@ -42,6 +32,11 @@
     "submit_status": {
       "type": "boolean",
       "default": false
+    },
+    "products": {
+      "type": "component",
+      "repeatable": true,
+      "component": "components.inventory-item-with-length"
     }
   }
 }

@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_inventory_item_with_length",
+  "info": {
+    "displayName": "Inventory Item With Length",
+    "icon": "cookie"
+  },
+  "options": {},
+  "attributes": {
+    "inventory_item": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::warehouse-inventory.warehouse-inventory"
+    },
+    "length": {
+      "type": "integer"
+    }
+  }
+}
