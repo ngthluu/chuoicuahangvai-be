@@ -18,17 +18,8 @@
       "target": "api::branch.branch",
       "inversedBy": "warehouse_catalogues"
     },
-    "code": {
-      "type": "string",
-      "required": true
-    },
     "note": {
       "type": "richtext"
-    },
-    "products": {
-      "type": "component",
-      "repeatable": true,
-      "component": "components.sku-with-quantity"
     },
     "submit_time": {
       "type": "datetime"
@@ -41,6 +32,11 @@
     "submit_status": {
       "type": "boolean",
       "default": false
+    },
+    "products": {
+      "type": "component",
+      "repeatable": true,
+      "component": "components.inventory-item-with-length"
     }
   }
 }
