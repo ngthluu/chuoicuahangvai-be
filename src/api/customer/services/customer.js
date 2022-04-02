@@ -34,7 +34,12 @@ module.exports = () => ({
 
     async deleteOne(id) {
         strapi.query('plugin::users-permissions.user').delete({
-            where: { id: id },
+            where: {
+                role: {
+                    name: 'Customer'
+                },
+                id: id,
+            },
         });
     }
 });
