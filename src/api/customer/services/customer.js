@@ -30,5 +30,11 @@ module.exports = () => ({
             },
             populate: populate,
         });
+    },
+
+    async deleteOne(id) {
+        strapi.query('plugin::users-permissions.user').delete({
+            where: { id: id },
+        });
     }
 });

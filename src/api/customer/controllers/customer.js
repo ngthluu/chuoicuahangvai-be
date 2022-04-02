@@ -14,5 +14,11 @@ module.exports = {
     const { id } = ctx.params
     const data = await strapi.service('api::customer.customer').fetchOne(id, ctx.query.filters, ctx.query.populate);
     ctx.body = { data: data };
+  },
+
+  deleteOne: async (ctx, next) => {
+    const { id } = ctx.params
+    const data = await strapi.service('api::customer.customer').deleteOne(id);
+    ctx.body = { data: data };
   }
 };

@@ -18,5 +18,14 @@ module.exports = {
         middlewares: [],
       },
     },
+    {
+      method: 'DELETE',
+      path: '/customer/:id',
+      handler: 'customer.deleteOne',
+      config: {
+        policies: [],
+        middlewares: [],
+      },
+    },
   ],
 };
