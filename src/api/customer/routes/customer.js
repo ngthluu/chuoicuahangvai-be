@@ -9,5 +9,14 @@ module.exports = {
        middlewares: [],
      },
     },
+    {
+      method: 'GET',
+      path: '/customer/:id',
+      handler: 'customer.findOne',
+      config: {
+        policies: [],
+        middlewares: [],
+      },
+    },
   ],
 };
