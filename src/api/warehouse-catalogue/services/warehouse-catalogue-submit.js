@@ -16,14 +16,18 @@ const updateInventory = async (catalogueProductItem) => {
     const inventoryItem = await strapi.entityService.findOne('api::warehouse-inventory.warehouse-inventory', inventoryId, {
         populate: ['sku_quantity'],
     });
-    strapi.entityService.update('api::warehouse-inventory.warehouse-inventory', inventoryId, {
-        data: {
-            sku_quantity: {
-                id: inventoryItem.sku_quantity.id,
-                length: catalogueProductItem.length,
-            },
-        }
-    });
+    if (catalogueProductItem.length > 0) {
+        strapi.entityService.update('api::warehouse-inventory.warehouse-inventory', inventoryId, {
+            data: {
+                sku_quantity: {
+                    id: inventoryItem.sku_quantity.id,
+                    length: catalogueProductItem.length,
+                },
+            }
+        });
+    } else {
+        strapi.entityService.delete('api::warehouse-inventory.warehouse-inventory', inventoryId);
+    }
 }
 
 const updateSubmitStatus = async (id, userId) => {
