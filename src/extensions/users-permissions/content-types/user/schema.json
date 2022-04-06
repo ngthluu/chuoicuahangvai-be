@@ -88,6 +88,9 @@
       "type": "component",
       "repeatable": false,
       "component": "components.user-shift"
+    },
+    "salary_per_shift": {
+      "type": "integer"
     }
   }
 }
