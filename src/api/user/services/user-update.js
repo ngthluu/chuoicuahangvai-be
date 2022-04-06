@@ -15,10 +15,8 @@ const where = {
 
 module.exports = () => ({
     async update(id, data) {
-        await strapi.db.query('plugin::users-permissions.user').update({
-            where: { id: id },
-            data: data,
+        await strapi.entityService.update('plugin::users-permissions.user', id, {
+            data: data
         });
-        strapi.log.info(JSON.stringify(data));
     },
 });
