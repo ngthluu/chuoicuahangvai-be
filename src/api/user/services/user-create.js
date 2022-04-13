@@ -15,10 +15,8 @@ const where = {
 
 module.exports = () => ({
     async create(data) {
-        strapi.log.info(JSON.stringify(data));
         await strapi.entityService.create('plugin::users-permissions.user', {
             data: data
         });
-        strapi.log.info(JSON.stringify(data));
     },
 });

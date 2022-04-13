@@ -91,6 +91,12 @@
     },
     "salary_per_shift": {
       "type": "integer"
+    },
+    "orders": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::order.order",
+      "mappedBy": "customer"
     }
   }
 }

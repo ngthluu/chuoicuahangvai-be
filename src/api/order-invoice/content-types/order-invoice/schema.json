@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "order_invoices",
+  "info": {
+    "singularName": "order-invoice",
+    "pluralName": "order-invoices",
+    "displayName": "Order Invoice",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "order": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::order.order",
+      "inversedBy": "order_invoice"
+    },
+    "customer_name": {
+      "type": "component",
+      "repeatable": false,
+      "component": "components.name"
+    },
+    "products": {
+      "type": "component",
+      "repeatable": true,
+      "component": "components.inventory-item-with-length"
+    },
+    "price": {
+      "type": "float"
+    },
+    "customer_phone": {
+      "type": "string"
+    },
+    "receive_address": {
+      "type": "component",
+      "repeatable": false,
+      "component": "components.address"
+    }
+  }
+}

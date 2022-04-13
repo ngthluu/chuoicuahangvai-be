@@ -4,17 +4,58 @@
   "info": {
     "singularName": "order",
     "pluralName": "orders",
-    "displayName": "Order"
+    "displayName": "Order",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "code": {
-      "type": "string",
-      "required": true,
-      "unique": true
+    "customer": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "orders"
+    },
+    "branch": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::branch.branch"
+    },
+    "products": {
+      "type": "component",
+      "repeatable": true,
+      "component": "components.inventory-item-with-length"
+    },
+    "note": {
+      "type": "richtext"
+    },
+    "export": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::warehouse-export.warehouse-export",
+      "inversedBy": "order"
+    },
+    "order_statuses": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::order-status.order-status",
+      "mappedBy": "order"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "cod",
+        "online",
+        "pos"
+      ]
+    },
+    "order_invoice": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::order-invoice.order-invoice",
+      "mappedBy": "order"
     }
   }
 }

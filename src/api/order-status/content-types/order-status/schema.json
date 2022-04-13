@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "order_statuses",
+  "info": {
+    "singularName": "order-status",
+    "pluralName": "order-statuses",
+    "displayName": "Order Status"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "initialize",
+        "confirmed",
+        "packaged",
+        "delivery",
+        "success",
+        "return",
+        "canceled"
+      ]
+    },
+    "order": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::order.order",
+      "inversedBy": "order_statuses"
+    }
+  }
+}

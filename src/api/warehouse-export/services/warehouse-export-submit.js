@@ -16,7 +16,6 @@ const updateInventory = async (exportProductItem) => {
     const inventoryItem = await strapi.entityService.findOne('api::warehouse-inventory.warehouse-inventory', inventoryId, {
         populate: ['sku_quantity'],
     });
-    strapi.log.info(JSON.stringify(inventoryItem));
     strapi.entityService.update('api::warehouse-inventory.warehouse-inventory', inventoryId, {
         data: {
             sku_quantity: {
