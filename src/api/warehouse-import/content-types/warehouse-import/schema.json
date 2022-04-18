@@ -37,6 +37,12 @@
     "submit_status": {
       "type": "boolean",
       "default": false
+    },
+    "refund": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::refund.refund",
+      "mappedBy": "import"
     }
   }
 }

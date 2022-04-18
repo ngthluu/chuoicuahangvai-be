@@ -1,0 +1,34 @@
+{
+  "kind": "collectionType",
+  "collectionName": "refund_statuses",
+  "info": {
+    "singularName": "refund-status",
+    "pluralName": "refund-statuses",
+    "displayName": "Refund Status",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "refund": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::refund.refund",
+      "inversedBy": "refund_statuses"
+    },
+    "update_user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    },
+    "update_status": {
+      "type": "boolean",
+      "default": false
+    },
+    "update_time": {
+      "type": "datetime"
+    }
+  }
+}

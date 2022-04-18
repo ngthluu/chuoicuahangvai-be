@@ -1,0 +1,53 @@
+{
+  "kind": "collectionType",
+  "collectionName": "refunds",
+  "info": {
+    "singularName": "refund",
+    "pluralName": "refunds",
+    "displayName": "Refund",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "customer": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "refunds"
+    },
+    "branch": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::branch.branch"
+    },
+    "products": {
+      "type": "component",
+      "repeatable": true,
+      "component": "components.sku-with-quantity"
+    },
+    "note": {
+      "type": "richtext"
+    },
+    "import": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::warehouse-import.warehouse-import",
+      "inversedBy": "refund"
+    },
+    "refund_invoice": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::refund-invoice.refund-invoice",
+      "inversedBy": "refund"
+    },
+    "refund_statuses": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::refund-status.refund-status",
+      "mappedBy": "refund"
+    }
+  }
+}

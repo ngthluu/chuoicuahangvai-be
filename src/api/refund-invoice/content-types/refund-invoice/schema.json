@@ -1,0 +1,38 @@
+{
+  "kind": "collectionType",
+  "collectionName": "refund_invoices",
+  "info": {
+    "singularName": "refund-invoice",
+    "pluralName": "refund-invoices",
+    "displayName": "Refund Invoice",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "refund": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::refund.refund",
+      "mappedBy": "refund_invoice"
+    },
+    "customer_name": {
+      "type": "component",
+      "repeatable": false,
+      "component": "components.name"
+    },
+    "customer_phone": {
+      "type": "string"
+    },
+    "products": {
+      "type": "component",
+      "repeatable": true,
+      "component": "components.sku-with-quantity"
+    },
+    "price": {
+      "type": "float"
+    }
+  }
+}
