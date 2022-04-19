@@ -1,0 +1,24 @@
+{
+  "kind": "collectionType",
+  "collectionName": "order_payment_invoices",
+  "info": {
+    "singularName": "order-payment-invoice",
+    "pluralName": "order-payment-invoices",
+    "displayName": "Order Payment Invoice"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "order_invoice": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::order-invoice.order-invoice",
+      "inversedBy": "order_payment_invoices"
+    },
+    "amount": {
+      "type": "biginteger"
+    }
+  }
+}
