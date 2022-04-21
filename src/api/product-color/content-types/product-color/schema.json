@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "product_colors",
+  "info": {
+    "singularName": "product-color",
+    "pluralName": "product-colors",
+    "displayName": "Product Color",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "product_skus": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::product-sku.product-sku",
+      "mappedBy": "color"
+    },
+    "color": {
+      "type": "string"
+    }
+  }
+}

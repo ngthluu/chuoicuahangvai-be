@@ -36,9 +36,6 @@
       "required": true,
       "default": "0"
     },
-    "color": {
-      "type": "string"
-    },
     "pattern": {
       "type": "relation",
       "relation": "manyToOne",
@@ -61,6 +58,12 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::product-origin.product-origin",
+      "inversedBy": "product_skus"
+    },
+    "color": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::product-color.product-color",
       "inversedBy": "product_skus"
     }
   }
