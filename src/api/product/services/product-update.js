@@ -21,6 +21,7 @@ module.exports = () => ({
                 sku: skuItem.attributes.sku,
                 price: skuItem.attributes.price,
                 product: id,
+                images: skuItem.attributes.images.data,
                 color: skuItem.attributes.color.data ? skuItem.attributes.color.data.id : null,
                 origin: skuItem.attributes.origin.data ? skuItem.attributes.origin.data.id : null,
                 width: skuItem.attributes.width.data ? skuItem.attributes.width.data.id : null,
