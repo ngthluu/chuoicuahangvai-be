@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "voucher_uses",
+  "info": {
+    "singularName": "voucher-use",
+    "pluralName": "voucher-uses",
+    "displayName": "Voucher Use",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "voucher": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::voucher.voucher",
+      "inversedBy": "voucher_uses"
+    },
+    "customer": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "voucher_uses"
+    }
+  }
+}

@@ -103,6 +103,12 @@
       "relation": "oneToMany",
       "target": "api::refund.refund",
       "mappedBy": "customer"
+    },
+    "voucher_uses": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::voucher-use.voucher-use",
+      "mappedBy": "customer"
     }
   }
 }

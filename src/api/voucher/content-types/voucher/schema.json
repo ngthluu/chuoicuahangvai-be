@@ -1,0 +1,42 @@
+{
+  "kind": "collectionType",
+  "collectionName": "vouchers",
+  "info": {
+    "singularName": "voucher",
+    "pluralName": "vouchers",
+    "displayName": "Voucher",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "code": {
+      "type": "string"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "percent",
+        "percent_limit",
+        "amount"
+      ]
+    },
+    "available_start_date": {
+      "type": "date"
+    },
+    "available_end_date": {
+      "type": "date"
+    },
+    "voucher_uses": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::voucher-use.voucher-use",
+      "mappedBy": "voucher"
+    },
+    "type_value": {
+      "type": "json"
+    }
+  }
+}
