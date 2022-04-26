@@ -3,16 +3,16 @@ module.exports = ({ env }) => ({
     config: {
       provider: 'nodemailer',
       providerOptions: {
-        host: env('SMTP_HOST', 'smtp.example.com'),
+        host: env('SMTP_HOST', 'smtp.gmail.com'),
         port: env('SMTP_PORT', 587),
         auth: {
-          user: env('SMTP_USERNAME'),
-          pass: env('SMTP_PASSWORD'),
+          user: env('lvtnchuoicuahangvaile@gmail.com'),
+          pass: env('0383477379'),
         },
       },
       settings: {
-        defaultFrom: 'hello@example.com',
-        defaultReplyTo: 'hello@example.com',
+        defaultFrom: 'lvtnchuoicuahangvaile@gmail.com',
+        defaultReplyTo: 'lvtnchuoicuahangvaile@gmail.com',
       },
     },
   },
