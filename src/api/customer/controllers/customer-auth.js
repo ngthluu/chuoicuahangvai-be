@@ -6,7 +6,7 @@
 
 const utils = require('@strapi/utils');
 const { sanitize } = utils;
-const { ApplicationError, ValidationError } = utils.errors;
+const { ValidationError } = utils.errors;
 
 const getCustomerRoleId = async () => {
   const roles = await strapi.service('plugin::users-permissions.role').getRoles();
