@@ -56,6 +56,11 @@
       "relation": "oneToOne",
       "target": "api::order-invoice.order-invoice",
       "mappedBy": "order"
+    },
+    "receive_address": {
+      "type": "component",
+      "repeatable": false,
+      "component": "components.address"
     }
   }
 }

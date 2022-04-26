@@ -37,6 +37,16 @@
     },
     "type_value": {
       "type": "json"
+    },
+    "apply_for": {
+      "type": "enumeration",
+      "enum": [
+        "new_customers",
+        "all_customers_limit_quantity"
+      ]
+    },
+    "apply_for_value": {
+      "type": "json"
     }
   }
 }

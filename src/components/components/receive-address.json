@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_components_receive_addresses",
+  "info": {
+    "displayName": "Receive Address",
+    "icon": "ruler"
+  },
+  "options": {},
+  "attributes": {
+    "name": {
+      "type": "component",
+      "repeatable": false,
+      "component": "components.name"
+    },
+    "address": {
+      "type": "component",
+      "repeatable": true,
+      "component": "components.address"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "is_default": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

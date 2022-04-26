@@ -109,6 +109,11 @@
       "relation": "oneToMany",
       "target": "api::voucher-use.voucher-use",
       "mappedBy": "customer"
+    },
+    "receive_address": {
+      "type": "component",
+      "repeatable": true,
+      "component": "components.receive-address"
     }
   }
 }
