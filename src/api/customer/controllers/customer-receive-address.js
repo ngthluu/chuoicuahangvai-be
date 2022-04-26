@@ -1,25 +1,11 @@
 'use strict';
 
-/**
- * A set of functions called "actions" for `warehouse-catalogue-submit`
- */
-
-const getUserData = async (ctx, filters=[]) => {
-  const { user } = ctx.state;
-  const userData = await strapi.service('api::customer.customer').fetchOne(user.id, filters, [
-    'receive_address',
-    'receive_address.name',
-    'receive_address.address',
-    'receive_address.address_three_levels'
-  ]);
-  return userData;
-}
-
 module.exports = {
   getReceiveAddressList: async (ctx, next) => {
     try {
-      const userData = await getUserData(ctx);
-      ctx.body = userData.receive_address;
+      const { user } = ctx.state;
+      const receiveAddressList = await strapi.service('api::customer.customer-receive-address').getReceiveAddressList(user.id);
+      ctx.body = receiveAddressList;
     } catch (err) {
       ctx.body = err;
     }
@@ -27,9 +13,9 @@ module.exports = {
   getReceiveAddressById: async (ctx, next) => {
     try {
       const { id } = ctx.params;
-      const userData = await getUserData(ctx);
-      const receiveAddress = userData.receive_address;
-      ctx.body = receiveAddress.filter((item) => item.id == id);
+      const { user } = ctx.state;
+      const receiveAddress = await strapi.service('api::customer.customer-receive-address').getReceiveAddressById(user.id, id);
+      ctx.body = receiveAddress;
     } catch (err) {
       ctx.body = err;
     }
