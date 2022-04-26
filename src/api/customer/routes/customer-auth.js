@@ -9,6 +9,15 @@ module.exports = {
         prefix: '',
       },
     },
+    {
+      method: 'POST',
+      path: '/auth/login',
+      handler: 'customer-auth.login',
+      config: {
+        middlewares: ['plugin::users-permissions.rateLimit'],
+        prefix: '',
+      },
+    },
   ]
 };
   

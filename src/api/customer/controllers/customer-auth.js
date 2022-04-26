@@ -36,5 +36,24 @@ module.exports = {
     } catch (err) {
       ctx.body = err;
     }
+  },
+  login: async (ctx, next) => {
+    try {
+      ctx.request.body = {
+        role: await getCustomerRoleId(),
+        ...ctx.request.body,
+      }
+      await strapi.controller('plugin::users-permissions.auth').callback(ctx);
+      
+      const { id } = ctx.response.body.user;
+      const user = await strapi.entityService.findOne('plugin::users-permissions.user', id, {
+        populate: ['role'],
+      });
+      if (user.role.name !== 'Customer') {
+        throw new ValidationError('Invalid identifier or password');
+      }
+    } catch (err) {
+      ctx.body = err;
+    }
   }
 };
