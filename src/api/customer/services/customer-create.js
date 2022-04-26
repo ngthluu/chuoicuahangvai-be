@@ -14,7 +14,6 @@ module.exports = () => ({
 
         const roles = await strapi.service('plugin::users-permissions.role').getRoles();
         const customerRole = roles.filter(item => item.name == 'Customer')[0];
-        strapi.log.info(JSON.stringify(data));
 
         const createData = {
             username: `anonymous-${data.phone}`,

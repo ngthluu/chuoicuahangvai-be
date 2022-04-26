@@ -2,7 +2,8 @@
   "collectionName": "components_components_receive_addresses",
   "info": {
     "displayName": "Receive Address",
-    "icon": "ruler"
+    "icon": "ruler",
+    "description": ""
   },
   "options": {},
   "attributes": {
@@ -13,7 +14,7 @@
     },
     "address": {
       "type": "component",
-      "repeatable": true,
+      "repeatable": false,
       "component": "components.address"
     },
     "phone": {

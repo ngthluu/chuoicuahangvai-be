@@ -21,7 +21,6 @@ module.exports = createCoreService('api::branch.branch', ({strapi}) => ({
                 }
             }
         }
-        strapi.log.info(JSON.stringify(fetchArgs));
         const { results, pagination } = await super.find(fetchArgs);
         return { results, pagination }
     }
