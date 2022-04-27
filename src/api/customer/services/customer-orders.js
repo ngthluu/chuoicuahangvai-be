@@ -1,7 +1,9 @@
 'use strict';
 
 const processOrdersData = (orders) => {
-  return orders.map((item) => {
+  return orders.filter((item) => {
+    return item.type != "pos";
+  }).map((item) => {
     return {
       code: `ORDER#${item.id}`,
       ...item,
