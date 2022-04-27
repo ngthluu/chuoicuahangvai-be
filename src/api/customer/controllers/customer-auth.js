@@ -18,7 +18,6 @@ const registerBodySchema = yup.object().shape({
   lastname: yup.string().required(),
   phone: yup.string().required(),
 });
-const validateRegisterBody = validateYupSchema(registerBodySchema);
 
 const getCustomerRoleId = async () => {
   const roles = await strapi.service('plugin::users-permissions.role').getRoles();
@@ -29,7 +28,7 @@ const getCustomerRoleId = async () => {
 module.exports = {
   register: async (ctx, next) => {
 
-    await validateRegisterBody(ctx.request.body);
+    await validateYupSchema(registerBodySchema)(ctx.request.body);
     
     const { email, firstname, lastname, password, phone } = ctx.request.body;
     ctx.request.body = {
