@@ -16,44 +16,31 @@ const getCustomerRoleId = async () => {
 
 module.exports = {
   register: async (ctx, next) => {
-    try {
-      const { email, firstname, lastname, password, phone } = ctx.request.body;
-      ctx.request.body = {
-        username: email,
-        email: email,
-        password: password,
-        phone: phone,
-        name: {
-          firstname: firstname,
-          lastname: lastname,
-        },
-      }
-      await strapi.controller('plugin::users-permissions.auth').register(ctx);
-      const { id } = ctx.response.body.user;
-      await strapi.entityService.update('plugin::users-permissions.user', id, {
-        data: { role: await getCustomerRoleId() }
-      });
-    } catch (err) {
-      ctx.body = err;
+    const { email, firstname, lastname, password, phone } = ctx.request.body;
+    ctx.request.body = {
+      username: email,
+      email: email,
+      password: password,
+      phone: phone,
+      name: {
+        firstname: firstname,
+        lastname: lastname,
+      },
     }
+    await strapi.controller('plugin::users-permissions.auth').register(ctx);
+    const { id } = ctx.response.body.user;
+    await strapi.entityService.update('plugin::users-permissions.user', id, {
+      data: { role: await getCustomerRoleId() }
+    });
   },
   login: async (ctx, next) => {
-    try {
-      ctx.request.body = {
-        role: await getCustomerRoleId(),
-        ...ctx.request.body,
-      }
-      await strapi.controller('plugin::users-permissions.auth').callback(ctx);
-      
-      const { id } = ctx.response.body.user;
-      const user = await strapi.entityService.findOne('plugin::users-permissions.user', id, {
-        populate: ['role'],
-      });
-      if (user.role.name !== 'Customer') {
-        throw new ValidationError('Invalid identifier or password');
-      }
-    } catch (err) {
-      ctx.body = err;
+    await strapi.controller('plugin::users-permissions.auth').callback(ctx);
+    const { id } = ctx.response.body.user;
+    const user = await strapi.entityService.findOne('plugin::users-permissions.user', id, {
+      populate: ['role'],
+    });
+    if (user.role.name !== 'Customer') {
+      throw new ValidationError('Invalid identifier or password');
     }
   }
 };
