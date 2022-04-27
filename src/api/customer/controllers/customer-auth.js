@@ -5,8 +5,20 @@
  */
 
 const utils = require('@strapi/utils');
-const { sanitize } = utils;
 const { ValidationError } = utils.errors;
+
+const { yup, validateYupSchema } = require('@strapi/utils');
+const registerBodySchema = yup.object().shape({
+  email: yup
+    .string()
+    .email()
+    .required(),
+  password: yup.string().required(),
+  firstname: yup.string().required(),
+  lastname: yup.string().required(),
+  phone: yup.string().required(),
+});
+const validateRegisterBody = validateYupSchema(registerBodySchema);
 
 const getCustomerRoleId = async () => {
   const roles = await strapi.service('plugin::users-permissions.role').getRoles();
@@ -16,6 +28,9 @@ const getCustomerRoleId = async () => {
 
 module.exports = {
   register: async (ctx, next) => {
+
+    await validateRegisterBody(ctx.request.body);
+    
     const { email, firstname, lastname, password, phone } = ctx.request.body;
     ctx.request.body = {
       username: email,
