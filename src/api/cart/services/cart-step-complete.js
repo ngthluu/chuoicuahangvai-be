@@ -44,7 +44,6 @@ module.exports = () => ({
       isDebt: isDebt ? isDebt : false,
       deliveryInfo: deliveryInfo,
       deliveryMethod: realDeliveryMethod[0],
-      deliveryCost: realDeliveryMethod[0].cost,
     }
 
     return returnData;
