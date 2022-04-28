@@ -36,5 +36,14 @@ module.exports = {
         middlewares: [],
       },
      },
+     {
+      method: 'POST',
+      path: '/cart/save',
+      handler: 'cart.save',
+      config: {
+        policies: [],
+        middlewares: [],
+      },
+     },
   ],
 };

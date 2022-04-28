@@ -21,4 +21,9 @@ module.exports = {
     const data = await strapi.service("api::cart.cart-step-complete").process(user, ctx.request.body);
     ctx.body = data;
   },
+  save: async (ctx, next) => {
+    const { user } = ctx.state;
+    const data = await strapi.service("api::cart.cart-save").process(user, ctx.request.body);
+    ctx.body = data;
+  },
 };
