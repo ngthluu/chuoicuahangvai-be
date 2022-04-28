@@ -12,13 +12,14 @@ const validateSchema = yup.object().shape({
     })
   ),
   note: yup.string(),
-  isDebt: yup.boolean(),
+  isDebt: yup.boolean().required(),
   deliveryInfo: yup.object().required().shape({
     email: yup.string().email().required(),
     firstname: yup.string().required(),
     lastname: yup.string().required(),
     address: yup.string().required(),
     wardId: yup.number().required(),
+    phone: yup.string().required(),
   }),
   deliveryMethod: yup.object().required().shape({
     id: yup.number().required(),

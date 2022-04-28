@@ -60,7 +60,7 @@
     "receive_address": {
       "type": "component",
       "repeatable": false,
-      "component": "components.address"
+      "component": "components.receive-address"
     }
   }
 }

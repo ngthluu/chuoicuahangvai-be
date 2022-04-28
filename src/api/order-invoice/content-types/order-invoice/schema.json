@@ -34,16 +34,16 @@
     "customer_phone": {
       "type": "string"
     },
-    "receive_address": {
-      "type": "component",
-      "repeatable": false,
-      "component": "components.address"
-    },
     "order_payment_invoices": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::order-payment-invoice.order-payment-invoice",
       "mappedBy": "order_invoice"
+    },
+    "receive_address": {
+      "type": "component",
+      "repeatable": false,
+      "component": "components.receive-address"
     }
   }
 }
