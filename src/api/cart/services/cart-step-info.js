@@ -23,7 +23,7 @@ module.exports = () => ({
     const cartData = await strapi.service('api::cart.cart-step-cart').process(user, data);
 
     let returnData = {
-        cart: cartData,
+        ...cartData,
         note: note ? note : '',
         isDebt: isDebt ? isDebt : false,
     }

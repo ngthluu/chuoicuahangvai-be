@@ -61,6 +61,8 @@ module.exports = () => ({
       return { ...item, length, inventoryLength };
     });
 
-    return skus;
+    const totalPrice = skus.reduce((sum, _) => sum + _.price * _.length, 0);
+
+    return {skus, totalPrice};
   }
 });
