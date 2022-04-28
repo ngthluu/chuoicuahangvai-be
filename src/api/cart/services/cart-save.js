@@ -20,30 +20,23 @@ const validateSchema = yup.object().shape({
     address: yup.string().required(),
     wardId: yup.number().required(),
   }),
-  deliveryMethod: yup.number().required(),
+  deliveryMethod: yup.object().required().shape({
+    id: yup.number().required(),
+  }),
+  paymentType: yup.string().required().oneOf(['cod', 'vnpay']),
 });
 
 module.exports = () => ({
   async process(user, data) {
     await validateYupSchema(validateSchema)(data);
     
-    let { note, isDebt, deliveryInfo, deliveryMethod } = data;
+    let { note, isDebt, deliveryInfo, deliveryMethod, paymentType } = data;
     const cartData = await strapi.service('api::cart.cart-step-cart').process(user, data);
-
-    const deliveryMethods = await strapi.service('api::cart.cart-step-delivery').getDeliveryMethods(); 
     const realDeliveryMethod = deliveryMethods.filter((item) => item.id == deliveryMethod);
     if (realDeliveryMethod.length == 0) {
       throw new ValidationError('Invalid delivery method');
     }
 
-    let returnData = {
-      ...cartData,
-      note: note ? note : '',
-      isDebt: isDebt ? isDebt : false,
-      deliveryInfo: deliveryInfo,
-      deliveryMethod: realDeliveryMethod[0],
-    }
-
-    return returnData;
+    return 'ok';
   }
 });
