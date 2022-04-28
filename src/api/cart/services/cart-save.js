@@ -87,13 +87,14 @@ module.exports = () => ({
     await validateYupSchema(validateSchema)(data);
     
     let { note, isDebt, deliveryInfo, deliveryMethod, paymentType } = data;
-    const { skus } = await strapi.service('api::cart.cart-step-cart').process(user, data);
+    const { skus, price } = await strapi.service('api::cart.cart-step-cart').process(user, data);
 
     const deliveryMethods = await strapi.service('api::cart.cart-step-delivery').getDeliveryMethods(); 
     const realDeliveryMethod = deliveryMethods.filter((item) => item.id == deliveryMethod.id);
     if (realDeliveryMethod.length == 0) {
       throw new ValidationError('Invalid delivery method');
     }
+    const totalPrice = price + realDeliveryMethod[0].cost;
 
     let orderData = {
         type: paymentType,
@@ -111,9 +112,11 @@ module.exports = () => ({
         note: note,
     }
     if (user) {
-        orderData =  {...orderData, customer: user.id  };
+        orderData =  { ...orderData, customer: user.id  };
     } else {
-        const customerData = await strapi.service('api::customer.customer-create').createAnonymous({
+        const customerData = await strapi
+        .service('api::customer.customer-create')
+        .createAnonymous({
             firstName: deliveryInfo.firstname,
             lastName: deliveryInfo.lastname,
             phone: deliveryInfo.phone,
@@ -122,6 +125,7 @@ module.exports = () => ({
     }
 
     const items = await this.getSuitableInventoryItems(skus);
+    let orderIds = [];
     for (const item of items) {
       const order = await strapi.service('api::order.order').create({
         data: {
@@ -129,8 +133,17 @@ module.exports = () => ({
           ...item,
         }
       });
+      orderIds.push(order.id);
       await strapi.service('api::order.order-utils').createOrderStatus(order.id, 'initialize');
     }
-    return 'ok';
+    // Online payment here
+    if (!isDebt && paymentType === 'online') {
+      const url = await strapi.service('api::cart.cart-vnpay').createPaymentUrl({
+        orders: orderIds,
+        totalAmount: totalPrice,
+      });
+      return { status: 'ok', url: url };
+    }
+    return { status: 'ok' };
   }
 });
