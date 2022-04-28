@@ -14,7 +14,7 @@ const validateSchema = yup.object().shape({
 });
 
 module.exports = () => ({
-  async process(data) {
+  async process(user, data) {
     await validateYupSchema(validateSchema)(data);
 
     const { cart } = data;
