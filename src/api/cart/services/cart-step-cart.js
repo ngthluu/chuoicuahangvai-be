@@ -5,7 +5,7 @@ const { ValidationError } = utils.errors;
 
 const { yup, validateYupSchema } = require('@strapi/utils');
 const validateSchema = yup.object().shape({
-  cart: yup.array().of(
+  skus: yup.array().of(
     yup.object().shape({
       id: yup.number().required(),
       length: yup.number().required(),
@@ -17,10 +17,10 @@ module.exports = () => ({
   async process(user, data) {
     await validateYupSchema(validateSchema)(data);
 
-    const { cart } = data;
-    const cartItemIds = cart.map((item) => item.id);
+    const { skus } = data;
+    const cartItemIds = skus.map((item) => item.id);
 
-    let skus = await strapi.entityService.findMany('api::product-sku.product-sku', {
+    let productSkus = await strapi.entityService.findMany('api::product-sku.product-sku', {
       filters: { 
         id: { $in: cartItemIds }, 
       },
@@ -47,12 +47,12 @@ module.exports = () => ({
       ],
     });
 
-    skus = skus.map((item) => {
+    productSkus = productSkus.map((item) => {
       const inventoryLength = inventories
         .filter((_) => _.sku_quantity.sku.id == item.id)
         .reduce((sum, _) => sum + _.sku_quantity.length, 0);
       
-      const inputDataLength = cart
+      const inputDataLength = skus
         .filter((_) => _.id == item.id)
         .reduce((sum, _) => sum + _.length, 0);
 
@@ -61,8 +61,8 @@ module.exports = () => ({
       return { ...item, length, inventoryLength };
     });
 
-    const totalPrice = skus.reduce((sum, _) => sum + _.price * _.length, 0);
+    const totalPrice = productSkus.reduce((sum, _) => sum + _.price * _.length, 0);
 
-    return {skus, totalPrice};
+    return {skus: productSkus, totalPrice};
   }
 });
