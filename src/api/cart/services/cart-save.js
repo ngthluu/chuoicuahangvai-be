@@ -27,7 +27,62 @@ const validateSchema = yup.object().shape({
   paymentType: yup.string().required().oneOf(['cod', 'online']),
 });
 
+const groupBy = (x,f)=>x.reduce((a,b)=>((a[f(b)]||=[]).push(b),a),{});
+
 module.exports = () => ({
+
+  async getSuitableInventoryItems(skus) {
+    const cartItemIds = skus.map((item) => item.id);
+    const inventories = await strapi.entityService.findMany('api::warehouse-inventory.warehouse-inventory', {
+      sort: ['createdAt:asc'],
+      filters: { 
+        sku_quantity: {
+          sku: {
+            id: { $in: cartItemIds },
+          },
+        }, 
+      },
+      populate: [
+        'sku_quantity',
+        'sku_quantity.sku',
+        'branch',
+      ],
+    });
+    const chooseItems = skus
+    .map((item) => {
+      const inventoriesWithSku = inventories.filter((item2) => {
+        return item2.sku_quantity.sku.id == item.id;
+      });
+      let data = [];
+      for (const inventoryWithSkuItem of inventoriesWithSku) {
+        const inventoryWithSkuItemLength = inventoryWithSkuItem.sku_quantity.length;
+        item.length -= inventoryWithSkuItemLength;
+        if (item.length < 0) {
+          data.push({...inventoryWithSkuItem, length: item.length + inventoryWithSkuItemLength});
+          break;
+        } else {
+          data.push({...inventoryWithSkuItem, length: inventoryWithSkuItemLength});
+        }
+      }
+      return data;
+    })
+    .flat();
+
+    return Object
+    .entries(groupBy(chooseItems, (item) => item.branch.id))
+    .map(([branchId, inventoryItems]) => {
+      return {
+        branch: branchId,
+        products: inventoryItems.map((item) => {
+          return {
+            inventory_item: item.id,
+            length: item.length,
+          }
+        }),
+      }
+    });
+  },
+
   async process(user, data) {
     await validateYupSchema(validateSchema)(data);
     
@@ -66,6 +121,16 @@ module.exports = () => ({
         orderData =  {...orderData, customer: customerData.id  };
     }
 
-    return orderData;
+    const items = await this.getSuitableInventoryItems(skus);
+    for (const item of items) {
+      const order = await strapi.service('api::order.order').create({
+        data: {
+          ...orderData,
+          ...item,
+        }
+      });
+      await strapi.service('api::order.order-utils').createOrderStatus(order.id, 'initialize');
+    }
+    return 'ok';
   }
 });
