@@ -23,14 +23,14 @@ module.exports = () => ({
     const cartData = await strapi.service('api::cart.cart-step-cart').process(user, data);
 
     let returnData = {
-        ...cartData,
-        note: note ? note : '',
-        isDebt: isDebt ? isDebt : false,
+      ...cartData,
+      note: note ? note : '',
+      isDebt: isDebt ? isDebt : false,
     }
 
     if (user) {
-        const receiveAddress = await strapi.service('api::customer.customer-receive-address').getReceiveAddressList(user.id);
-        returnData = { ...returnData, receiveAddress }
+      const receiveAddress = await strapi.service('api::customer.customer-receive-address').getReceiveAddressList(user.id);
+      returnData = { ...returnData, receiveAddress }
     }
 
     return returnData;
