@@ -42,7 +42,9 @@ const isValidReturnData = (data) => {
 module.exports = () => ({
   async createPaymentUrl(data) {
 
-    const { orders, totalAmount } = data;
+    const { request, orders, totalAmount } = data;
+
+    const ipAddr = request.headers['x-forwarded-for'] || request.socket.remoteAddress;
     
     let vnp_Params = {
       vnp_Version: '2.1.0',
@@ -51,7 +53,7 @@ module.exports = () => ({
       vnp_Amount: totalAmount * 100,
       vnp_CreateDate: dateFormat(new Date(), 'yyyymmddHHmmss'),
       vnp_CurrCode: 'VND',
-      vnp_IpAddr: '192.168.1.2',
+      vnp_IpAddr: ipAddr,
       vnp_Locale: 'vn',
       vnp_OrderInfo: `Đặt đơn hàng ${JSON.stringify(orders)}`,
       vnp_ReturnUrl: env.vnp_ReturnUrl,

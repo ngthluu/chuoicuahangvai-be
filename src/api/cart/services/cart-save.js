@@ -83,7 +83,10 @@ module.exports = () => ({
     });
   },
 
-  async process(user, data) {
+  async process(user, request) {
+
+    const data = request.body;
+
     await validateYupSchema(validateSchema)(data);
     
     let { note, isDebt, deliveryInfo, deliveryMethod, paymentType } = data;
@@ -139,6 +142,7 @@ module.exports = () => ({
     // Online payment here
     if (!isDebt && paymentType === 'online') {
       const url = await strapi.service('api::cart.cart-vnpay').createPaymentUrl({
+        request,
         orders: orderIds,
         totalAmount: totalPrice,
       });
