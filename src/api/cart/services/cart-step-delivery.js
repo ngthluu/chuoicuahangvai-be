@@ -38,6 +38,10 @@ const deliveryMethods = [
 ];
 
 module.exports = () => ({
+  async getDeliveryMethods() {
+    return deliveryMethods;
+  },
+
   async process(user, data) {
     await validateYupSchema(validateSchema)(data);
     
