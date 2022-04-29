@@ -18,6 +18,11 @@ module.exports = () => ({
     await validateYupSchema(validateSchema)(data);
 
     const { skus } = data;
+
+    if (skus.length == 0) {
+      return {skus: [], price: 0};
+    }
+
     const cartItemIds = skus.map((item) => item.id);
 
     let productSkus = await strapi.entityService.findMany('api::product-sku.product-sku', {
