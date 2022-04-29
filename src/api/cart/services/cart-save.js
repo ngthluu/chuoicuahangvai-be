@@ -5,7 +5,7 @@ const { ValidationError } = utils.errors;
 
 const { yup, validateYupSchema } = require('@strapi/utils');
 const validateSchema = yup.object().shape({
-  skus: yup.array().of(
+  skus: yup.array().required().of(
     yup.object().shape({
       id: yup.number().required(),
       length: yup.number().required(),
