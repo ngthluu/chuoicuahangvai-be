@@ -18,5 +18,14 @@ module.exports = {
         middlewares: [],
       },
     },
+    {
+      method: 'GET',
+      path: '/user-roles',
+      handler: 'user.getRoles',
+      config: {
+        policies: [],
+        middlewares: [],
+      },
+     },
   ],
 };

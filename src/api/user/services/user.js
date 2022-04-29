@@ -4,11 +4,12 @@
  * users service.
  */
 
+const forbiddenRoles = ['Super Admin', 'Customer', 'Public', 'Authenticated'];
 const select = ['id', 'username', 'email', 'blocked', 'phone'];
 const where = {
     role: {
         name: {
-            $notIn: ['Super Admin', 'Customer', 'Public', 'Authenticated']
+            $notIn: forbiddenRoles
         }
     },
 }
@@ -29,4 +30,9 @@ module.exports = () => ({
             populate: populate,
         });
     },
+
+    async getRoles() {
+        const roles = await strapi.service('plugin::users-permissions.role').getRoles();
+        return roles.filter((item) => !forbiddenRoles.includes(item.name));
+    }
 });

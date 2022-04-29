@@ -15,4 +15,8 @@ module.exports = {
     const data = await strapi.service('api::user.user').fetchOne(id, ctx.query.filters, ctx.query.populate);
     ctx.body = { data: data };
   },
+  getRoles: async (ctx, next) => {
+    const data = await strapi.service('api::user.user').getRoles();
+    ctx.body = data;
+  }
 };
