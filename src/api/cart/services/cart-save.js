@@ -27,7 +27,17 @@ const validateSchema = yup.object().shape({
   paymentType: yup.string().required().oneOf(['cod', 'online']),
 });
 
-const groupBy = (x,f)=>x.reduce((a,b)=>((a[f(b)]||=[]).push(b),a),{});
+const groupBy = (x, f) => {
+  let result = {};
+  for (const item of x) {
+    if (result.hasOwnProperty(f(item))) {
+      result[f(item)].push(item);
+    } else {
+      result[f(item)] = [item];
+    }
+  }
+  return result;
+}
 
 module.exports = () => ({
 
@@ -128,6 +138,7 @@ module.exports = () => ({
     }
 
     const items = await this.getSuitableInventoryItems(skus);
+    strapi.log.info(JSON.stringify(items));
     let orderIds = [];
     for (const item of items) {
       const order = await strapi.service('api::order.order').create({
