@@ -66,7 +66,8 @@ module.exports = () => ({
 
       return { ...item, length, inventoryLength };
     })
-    .filter((item) => item.inventoryLength > 0);
+    .filter((item) => item.inventoryLength > 0)
+    .filter((item) => item.length > 0);
 
     const price = productSkus.reduce((sum, _) => sum + _.price * _.length, 0);
 
