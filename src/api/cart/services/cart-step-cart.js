@@ -47,7 +47,8 @@ module.exports = () => ({
       ],
     });
 
-    productSkus = productSkus.map((item) => {
+    productSkus = productSkus
+    .map((item) => {
       const inventoryLength = inventories
         .filter((_) => _.sku_quantity.sku.id == item.id)
         .reduce((sum, _) => sum + _.sku_quantity.length, 0);
@@ -59,7 +60,8 @@ module.exports = () => ({
       const length = inputDataLength < inventoryLength ? inputDataLength : 1;
 
       return { ...item, length, inventoryLength };
-    });
+    })
+    .filter((item) => item.inventoryLength > 0);
 
     const price = productSkus.reduce((sum, _) => sum + _.price * _.length, 0);
 
