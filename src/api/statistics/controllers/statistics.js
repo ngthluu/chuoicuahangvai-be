@@ -6,13 +6,13 @@
 
 module.exports = {
   exportRevenue: async (ctx, next) => {
-    const { filters, populate } = ctx.query;
+    const { filters } = ctx.query;
 
     const data = await strapi
       .entityService
       .findMany('api::order-invoice.order-invoice', {
         filters: filters,
-        populate: populate,
+        populate: ['order', 'customer_name', 'products', 'order_payment_invoices'],
       });
 
     const headers = {
@@ -37,36 +37,60 @@ module.exports = {
   },
 
   exportSoldVolume: async (ctx, next) => {
-    const { filters, populate } = ctx.query;
+    const { filters } = ctx.query;
 
     const data = await strapi
-      .service('api::customer.customer')
-      .fetchAll(filters, populate);
+      .entityService
+      .findMany('api::order-invoice.order-invoice', {
+        filters: filters,
+        populate: [
+          'order',
+          'customer_name',
+          'products',
+          'products.inventory_item',
+          'products.inventory_item.sku_quantity',
+          'products.inventory_item.sku_quantity.sku',
+          'products.inventory_item.sku_quantity.sku.product',
+          'products.inventory_item.sku_quantity.sku.images',
+          'products.inventory_item.sku_quantity.sku.pattern',
+          'products.inventory_item.sku_quantity.sku.stretch',
+          'products.inventory_item.sku_quantity.sku.width',
+          'products.inventory_item.sku_quantity.sku.origin',
+          'products.inventory_item.sku_quantity.sku.color',
+          'order_payment_invoices',
+        ],
+      });
+
+    let products = {}
+    data.forEach((itemInvoice) => {
+      const invoiceProducts = itemInvoice.products
+      invoiceProducts.forEach((itemProduct) => {
+        const length = itemProduct.length
+        const inventoryItem = itemProduct.inventory_item
+        const skuQuantityItem = inventoryItem.sku_quantity
+        const skuItem = skuQuantityItem.sku
+        if (products.hasOwnProperty(skuItem.id)) {
+          products[skuItem.id].length += length
+        } else {
+          products[skuItem.id] = {
+            skuItem: skuItem,
+            length: length,
+          }
+        }
+      })
+    })
 
     const headers = {
-      name: 'Họ và tên',
-      phone: 'Số điện thoại',
-      debt_amount: 'Số tiền nợ',
-      status: 'Trạng thái',
+      product_code: 'Mã SP',
+      product_name: 'Tên SP',
+      length: 'Chiều dài đã bán',
     }
 
-    const dataset = data.map((item) => {
-      const debt_amount = item.orders.reduce((prev, cur) => {
-        if (!cur.order_invoice) return 0
-        return (
-          prev +
-          cur.order_invoice.price -
-          cur.order_invoice.order_payment_invoices.reduce((prev1, cur1) => {
-            return prev1 + parseInt(cur1.amount)
-          }, 0)
-        )
-      }, 0);
-      const status = debt_amount > 0 ? 'Đang nợ' : 'Thanh toán đủ';
+    const dataset = Object.entries(products).map(([key, item]) => {
       return {
-        name: item.name ? `${item.name.firstname} ${item.name.lastname}` : '',
-        phone: item.phone,
-        debt_amount: debt_amount,
-        status: status,
+        product_code: item.skuItem.sku,
+        product_name: item.skuItem.product.name,
+        length: item.length,
       }
     });
       
@@ -74,39 +98,34 @@ module.exports = {
   },
 
   exportCustomer: async (ctx, next) => {
-    const { filters, populate } = ctx.query;
+    const { filters } = ctx.query;
 
     const data = await strapi
       .service('api::customer.customer')
-      .fetchAll(filters, populate);
+      .fetchAll(filters, []);
+    
+    const customersData = data.map((item) => {
+      return { date: new Date(item.createdAt).toISOString().split('T')[0] }
+    });
 
     const headers = {
-      name: 'Họ và tên',
-      phone: 'Số điện thoại',
-      debt_amount: 'Số tiền nợ',
-      status: 'Trạng thái',
+      date: 'Ngày',
+      register_count: 'Số lượt đăng ký',
     }
 
-    const dataset = data.map((item) => {
-      const debt_amount = item.orders.reduce((prev, cur) => {
-        if (!cur.order_invoice) return 0
-        return (
-          prev +
-          cur.order_invoice.price -
-          cur.order_invoice.order_payment_invoices.reduce((prev1, cur1) => {
-            return prev1 + parseInt(cur1.amount)
-          }, 0)
-        )
-      }, 0);
-      const status = debt_amount > 0 ? 'Đang nợ' : 'Thanh toán đủ';
-      return {
-        name: item.name ? `${item.name.firstname} ${item.name.lastname}` : '',
-        phone: item.phone,
-        debt_amount: debt_amount,
-        status: status,
-      }
-    });
-      
+    const dataset = Object
+      .entries(customersData.reduce((prev, cur) => {
+        if (Object.keys(prev).includes(cur.date)) return prev
+        prev[cur.date] = {
+          total: customersData.filter((g) => g.date === cur.date).reduce((p, c) => p + 1, 0),
+        }
+        return prev
+      }, {}))
+      .map(([date, count]) => ({
+        date: date,
+        register_count: count.total,
+      }));
+
     await strapi.service('api::export-excel.export-excel').exportExcel(ctx, headers, dataset);
   },
 };
