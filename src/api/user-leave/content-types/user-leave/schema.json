@@ -4,7 +4,8 @@
   "info": {
     "singularName": "user-leave",
     "pluralName": "user-leaves",
-    "displayName": "User Leave"
+    "displayName": "User Leave",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
@@ -27,7 +28,8 @@
       "type": "datetime"
     },
     "approved": {
-      "type": "boolean"
+      "type": "boolean",
+      "default": false
     },
     "approved_time": {
       "type": "datetime"
