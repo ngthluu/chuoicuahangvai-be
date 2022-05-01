@@ -15,7 +15,7 @@ module.exports = {
     const headers = {
       id: 'ID',
       invoice_id: 'Hóa đơn',
-      branch_name: 'Chi nhánh',
+      branch_name: 'Cửa hàng',
       member_email: 'Khách hàng',
       create_date: 'Ngày đặt',
       status: 'Trạng thái',
