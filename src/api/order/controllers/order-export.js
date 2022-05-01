@@ -3,13 +3,19 @@
 module.exports = {
   exportAll: async (ctx, next) => {
 
-    const { filters, populate } = ctx.query;
+    const { filters } = ctx.query;
 
     const data = await strapi
       .entityService
       .findMany('api::order.order', {
         filters: filters,
-        populate: populate,
+        populate: [
+          'customer',
+          'branch',
+          'order_statuses',
+          'order_invoice',
+          'order_invoice.order_payment_invoices',
+        ],
       });
 
     const headers = {

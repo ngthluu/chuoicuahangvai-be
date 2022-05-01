@@ -7,13 +7,22 @@
 module.exports = {
   exportAll: async (ctx, next) => {
 
-    const { filters, populate } = ctx.query;
+    const { filters } = ctx.query;
 
     const data = await strapi
       .entityService
       .findMany('api::warehouse-inventory.warehouse-inventory', {
         filters: filters,
-        populate: populate,
+        populate: [
+          'sku_quantity',
+          'sku_quantity.sku',
+          'sku_quantity.sku.product',
+          'sku_quantity.sku.color',
+          'sku_quantity.sku.pattern',
+          'sku_quantity.sku.stretch',
+          'sku_quantity.sku.width',
+          'sku_quantity.sku.origin',
+        ],
       });
 
     const headers = {

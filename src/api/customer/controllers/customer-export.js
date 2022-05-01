@@ -3,11 +3,11 @@
 module.exports = {
   exportAll: async (ctx, next) => {
 
-    const { filters, populate } = ctx.query;
+    const { filters } = ctx.query;
 
     const data = await strapi
       .service('api::customer.customer')
-      .fetchAll(filters, populate);
+      .fetchAll(filters, ['name', 'address', 'address.address_three_levels']);
 
     const headers = {
       id: 'ID',
@@ -35,11 +35,16 @@ module.exports = {
   },
   exportAllDebt: async (ctx, next) => {
 
-    const { filters, populate } = ctx.query;
+    const { filters } = ctx.query;
 
     const data = await strapi
       .service('api::customer.customer')
-      .fetchAll(filters, populate);
+      .fetchAll(filters, [
+        'name',
+        'orders',
+        'orders.order_invoice',
+        'orders.order_invoice.order_payment_invoices',
+      ]);
 
     const headers = {
       name: 'Họ và tên',
