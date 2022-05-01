@@ -5,7 +5,7 @@
  */
 
 module.exports = () => ({
-  async exportExcel(ctx, filename='Report.xlsx', header, data) {
+  async exportExcel(ctx, header, data) {
     const excel = require('node-excel-export');
     const styles = {
       headerDark: {
@@ -36,7 +36,7 @@ module.exports = () => ({
       ]
     );
 
-    ctx.attachment(filename)
+    ctx.attachment('Report.xlsx')
     ctx.send(report)
   }
 });

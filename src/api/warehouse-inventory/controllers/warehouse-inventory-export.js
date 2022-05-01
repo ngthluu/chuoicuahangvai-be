@@ -34,8 +34,6 @@ module.exports = {
       }
     });
       
-    await strapi
-      .service('api::export-excel.export-excel')
-      .exportExcel(ctx, 'Report-inventory.xlsx', headers, dataset);
+    await strapi.service('api::export-excel.export-excel').exportExcel(ctx, headers, dataset);
   }
 };
