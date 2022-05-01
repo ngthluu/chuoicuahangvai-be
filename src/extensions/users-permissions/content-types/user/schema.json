@@ -120,6 +120,12 @@
       "relation": "manyToOne",
       "target": "api::branch.branch",
       "inversedBy": "users"
+    },
+    "user_leaves": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::user-leave.user-leave",
+      "mappedBy": "user"
     }
   }
 }
