@@ -36,26 +36,49 @@ module.exports = () => ({
     const data = users
       .map((item) => {
         if (!item.shift) return [];
-        const { monday, tuesday, wednesday, thursday, friday, saturday, sunday } = item.shift;
-        const days = [sunday, monday, tuesday, wednesday, thursday, friday, saturday];
+        const days = { mo: item.shift.monday, tu: item.shift.tuesday, we: item.shift.wednesday, th: item.shift.thursday, fr: item.shift.friday, sa: item.shift.saturday, su: item.shift.sunday};
         let daysOfWeekMorning = [];
         let daysOfWeekAfternoon = [];
         let daysOfWeekNight = [];
-        for (const i in days) {
-          if (days[i].morning) daysOfWeekMorning.push(i);
-          if (days[i].afternoon) daysOfWeekAfternoon.push(i);
-          if (days[i].night) daysOfWeekNight.push(i);
+        for (const [key, value] of Object.entries(days)) {
+          if (value.morning) daysOfWeekMorning.push(key);
+          if (value.afternoon) daysOfWeekAfternoon.push(key);
+          if (value.night) daysOfWeekNight.push(key);
         }
         const userLeaves = leaves
           .filter((leave) => leave.user.id === item.id)
-          .map((leave) => ({ freq: 'yearly', dtstart: leave.from, until: leave.to }));
+          .map((leave) => ({ 
+            freq: 'minutely', 
+            dtstart: leave.from.slice(0, -1), 
+            until: leave.to.slice(0, -1) 
+          }));
+        
         return [
-          { exrule: userLeaves, groupdId: item.email, title: item.email, color: getColor(item.role.name), daysOfWeek: daysOfWeekMorning, startTime: '06:00:00', endTime: '12:00:00'},
-          { exrule: userLeaves, groupdId: item.email, title: item.email, color: getColor(item.role.name), daysOfWeek: daysOfWeekAfternoon, startTime: '12:00:00', endTime: '18:00:00'},
-          { exrule: userLeaves, groupdId: item.email, title: item.email, color: getColor(item.role.name), daysOfWeek: daysOfWeekNight, startTime: '18:00:00', endTime: '24:00:00'},
-        ]
+          {
+            title: item.email,
+            color: getColor(item.role.name),
+            rrule: { freq: 'weekly', byweekday: daysOfWeekMorning, dtstart: '0001-01-01T06:00:00' },
+            duration: '06:00',
+            exrule: userLeaves,
+          },
+          {
+            title: item.email,
+            color: getColor(item.role.name),
+            rrule: { freq: 'weekly', byweekday: daysOfWeekAfternoon, dtstart: '0001-01-01T12:00:00' },
+            duration: '06:00',
+            exrule: userLeaves,
+          },
+          { 
+            title: item.email,
+            color: getColor(item.role.name),
+            rrule: { freq: 'weekly', byweekday: daysOfWeekNight, dtstart: '0001-01-01T18:00:00' },
+            duration: '06:00',
+            exrule: userLeaves, 
+          },
+        ];
       })
-      .flat();
+      .flat()
+      .filter((item) => item.rrule.byweekday.length > 0);
 
     return data;
   },
