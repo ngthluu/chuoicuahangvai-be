@@ -52,6 +52,12 @@
       "relation": "oneToMany",
       "target": "api::warehouse-inventory.warehouse-inventory",
       "mappedBy": "branch"
+    },
+    "users": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "plugin::users-permissions.user",
+      "mappedBy": "branch"
     }
   }
 }

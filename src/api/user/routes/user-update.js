@@ -3,7 +3,7 @@ module.exports = {
       {
         method: 'PUT',
         path: '/user/:id',
-        handler: 'user.update',
+        handler: 'user-update.update',
         config: {
           policies: [],
           middlewares: [],

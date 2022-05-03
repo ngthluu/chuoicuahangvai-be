@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "user_leaves",
+  "info": {
+    "singularName": "user-leave",
+    "pluralName": "user-leaves",
+    "displayName": "User Leave",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "user_leaves"
+    },
+    "note": {
+      "type": "richtext"
+    },
+    "from": {
+      "type": "datetime"
+    },
+    "to": {
+      "type": "datetime"
+    },
+    "approved": {
+      "type": "boolean",
+      "default": false
+    },
+    "approved_time": {
+      "type": "datetime"
+    },
+    "approved_user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    }
+  }
+}

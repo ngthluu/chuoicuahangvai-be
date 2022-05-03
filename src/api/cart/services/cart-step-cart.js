@@ -62,14 +62,14 @@ module.exports = () => ({
         .filter((_) => _.id == item.id)
         .reduce((sum, _) => sum + _.length, 0);
 
-      const length = inputDataLength < inventoryLength ? inputDataLength : 1;
+      const length = inputDataLength <= inventoryLength ? inputDataLength : 1;
 
       return { ...item, length, inventoryLength };
     })
     .filter((item) => item.inventoryLength > 0)
     .filter((item) => item.length > 0);
 
-    const price = productSkus.reduce((sum, _) => sum + _.price * _.length, 0);
+    const price = productSkus.reduce((sum, _) => sum + _.price * _.length * 0.01, 0);
 
     return {skus: productSkus, price};
   }

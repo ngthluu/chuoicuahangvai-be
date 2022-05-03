@@ -26,6 +26,17 @@ const validateSchema = yup.object().shape({
   }),
 });
 
+const paymentMethods = [
+  {
+    type: 'cod',
+    name: 'Thanh toán khi nhận hàng',
+  }, 
+  {
+    type: 'online',
+    name: 'Thanh toán trực tuyến - VNPAY',
+  }
+];
+
 module.exports = () => ({
   async process(user, data) {
     await validateYupSchema(validateSchema)(data);
@@ -45,6 +56,7 @@ module.exports = () => ({
       isDebt: isDebt ? isDebt : false,
       deliveryInfo: deliveryInfo,
       deliveryMethod: realDeliveryMethod[0],
+      paymentMethods: paymentMethods,
     }
 
     return returnData;

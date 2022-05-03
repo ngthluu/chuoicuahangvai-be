@@ -4,7 +4,7 @@
  * users service.
  */
 
-const select = ['id', 'username', 'email', 'blocked', 'phone', 'salary_per_shift'];
+const select = ['id', 'username', 'email', 'blocked', 'phone'];
 const where = {
     role: {
         name: {

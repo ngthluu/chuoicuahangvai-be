@@ -89,9 +89,6 @@
       "repeatable": false,
       "component": "components.user-shift"
     },
-    "salary_per_shift": {
-      "type": "integer"
-    },
     "orders": {
       "type": "relation",
       "relation": "oneToMany",
@@ -114,6 +111,18 @@
       "type": "component",
       "repeatable": true,
       "component": "components.receive-address"
+    },
+    "branch": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::branch.branch",
+      "inversedBy": "users"
+    },
+    "user_leaves": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::user-leave.user-leave",
+      "mappedBy": "user"
     }
   }
 }

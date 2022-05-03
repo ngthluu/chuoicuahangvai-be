@@ -19,22 +19,13 @@ module.exports = {
       },
     },
     {
-      method: 'POST',
-      path: '/user',
-      handler: 'user.create',
+      method: 'GET',
+      path: '/user-roles',
+      handler: 'user.getRoles',
       config: {
         policies: [],
         middlewares: [],
       },
-    },
-    {
-      method: 'PUT',
-      path: '/user/:id',
-      handler: 'user.update',
-      config: {
-        policies: [],
-        middlewares: [],
-      },
-    },
+     },
   ],
 };

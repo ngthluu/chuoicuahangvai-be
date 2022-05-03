@@ -3,7 +3,7 @@ module.exports = {
       {
         method: 'POST',
         path: '/user',
-        handler: 'user.create',
+        handler: 'user-create.create',
         config: {
           policies: [],
           middlewares: [],
