@@ -27,7 +27,7 @@ module.exports = () => ({
       const userData = await getUserData(userId);
       let receiveAddress = userData.receive_address;
       if (is_default) {
-        for (const i = 0; i < receiveAddress.length; ++i) {
+        for (let i = 0; i < receiveAddress.length; ++i) {
           receiveAddress[i].is_default = false;
         }
       }
