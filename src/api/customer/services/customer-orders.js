@@ -6,6 +6,7 @@ const processOrdersData = (orders) => {
   }).map((item) => {
     return {
       code: `ORDER#${item.id}`,
+      totalAmount: item.order_invoice ? item.order_invoice.price : 0,
       ...item,
     }
   });
@@ -15,9 +16,12 @@ const getOrdersOfUser = async (userId, orderId=null) => {
   let userData = await strapi.entityService.findOne('plugin::users-permissions.user', userId, {
     populate: [
       'orders',
+      'orders.order_invoice',
       'orders.order_statuses',
       'orders.receive_address',
-      'orders.receive_address.address_three_levels',
+      'orders.receive_address.name',
+      'orders.receive_address.address',
+      'orders.receive_address.address.address_three_levels',
       'orders.products',
       'orders.products.inventory_item',
       'orders.products.inventory_item.sku_quantity',
