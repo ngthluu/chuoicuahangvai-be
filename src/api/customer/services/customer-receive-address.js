@@ -87,7 +87,13 @@ module.exports = () => ({
 
     async deleteReceiveAddress(id, userId) {
       const userData = await getUserData(userId);
-      const receiveAddressData = userData.receive_address.filter((item) => item.id != id);
+      let deletedAddress = userData.receive_address.filter((item) => item.id == id);
+      if (deletedAddress.length <= 0) return false;
+      deletedAddress = deletedAddress[0];
+      let receiveAddressData = userData.receive_address.filter((item) => item.id != id);
+      if (deletedAddress.is_default && receiveAddressData.length > 0) {
+        receiveAddressData[0].is_default = true;
+      }
       await strapi.entityService.update('plugin::users-permissions.user', userData.id, {
         data: {
           receive_address: receiveAddressData,
