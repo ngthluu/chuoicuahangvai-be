@@ -20,7 +20,7 @@ module.exports = () => ({
     const { skus } = data;
 
     if (skus.length == 0) {
-      return {skus: [], price: 0};
+      return {skus: [], price: 0, message: ['Giỏ hàng trống']};
     }
 
     const cartItemIds = skus.map((item) => item.id);
@@ -52,6 +52,9 @@ module.exports = () => ({
       ],
     });
 
+    let outOfInventoryMessages = [];
+    let outOfStockMessages = [];
+
     productSkus = productSkus
     .map((item) => {
       const inventoryLength = inventories
@@ -62,15 +65,27 @@ module.exports = () => ({
         .filter((_) => _.id == item.id)
         .reduce((sum, _) => sum + _.length, 0);
 
-      const length = inputDataLength <= inventoryLength ? inputDataLength : 1;
+      if (inventoryLength == 0) {
+        outOfStockMessages.push(`${item.product.name} (${item.sku})`);
+      } else if (inputDataLength > inventoryLength) {
+        outOfInventoryMessages.push(`${item.product.name} (${item.sku})`);
+      }
 
+      const length = inputDataLength <= inventoryLength ? inputDataLength : 0;
       return { ...item, length, inventoryLength };
     })
     .filter((item) => item.inventoryLength > 0)
     .filter((item) => item.length > 0);
 
     const price = productSkus.reduce((sum, _) => sum + _.price * _.length * 0.01, 0);
+    let messages = [];
+    if (outOfInventoryMessages.length > '') messages.push(`Sản phẩm ${outOfInventoryMessages.join(', ')} vượt quá số lượng trong kho`);
+    if (outOfStockMessages.length > '') messages.push(`Sản phẩm ${outOfStockMessages.join(', ')} đã hết hàng`);
 
-    return {skus: productSkus, price};
+    return {
+      skus: productSkus,
+      price,
+      message: messages,
+    };
   }
 });

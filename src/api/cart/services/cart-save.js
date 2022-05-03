@@ -138,7 +138,6 @@ module.exports = () => ({
     }
 
     const items = await this.getSuitableInventoryItems(skus);
-    strapi.log.info(JSON.stringify(items));
     let orderIds = [];
     for (const item of items) {
       const order = await strapi.service('api::order.order').create({
