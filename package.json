@@ -18,6 +18,7 @@
     "crypto": "^1.0.1",
     "dateformat": "4.6.3",
     "node-excel-export": "^1.4.4",
+    "pdf-creator-node": "^2.3.4",
     "pg": "8.6.0",
     "qs": "^6.10.3"
   },

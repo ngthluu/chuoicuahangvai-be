@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      .text-center {
+        text-align: center;
+      }
+      .text-right {
+        text-align: right;
+      }
+      table, th, td {
+        border: 1px solid;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      .column {
+        float: left;
+        width: 50%;
+      }
+      .row:after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+    </style>
+  </head>
+  <body>
+    <h1 class="text-center">Hóa đơn S-INVOICE#{{id}}</h1>
+    <div class="row" style="margin-bottom: 10px;">
+      <div class="column">
+        <h4>Thông tin hóa đơn</h4>
+        <div>Mã hóa đơn: S-INVOICE#{{id}}</div>
+        <div>Thời gian khởi tạo: {{createdAt}}</div>
+      </div>
+      <div class="column">
+        <h4>Thông tin người mua</h4>
+        <div>Họ và tên: {{customer_name.firstname}} {{customer_name.lastname}}</div>
+        <div>Số điện thoại: {{customer_phone}}</div>
+      </div>
+    </div>
+    <table>
+      <thead class="text-center">
+        <tr>
+          <th>#</th>
+          <th>ID trong kho</th>
+          <th>Tên SP</th>
+          <th>Mã SP</th>
+          <th>Mô tả</th>
+          <th>Đơn giá (đ/m)</th>
+          <th>Chiều dài (cm)</th>
+          <th>Tổng cộng (đ)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each products}}
+        <tr>
+          <td class="text-center" width="30px">#{{this.index}}</td>
+          <td class="text-center" width="60px">#{{this.inventory_id}}</td>
+          <td class="text-center">{{this.name}}</td>
+          <td class="text-center" width="50px">{{this.code}}</td>
+          <td style="padding: 2px;">
+          {{#each this.descriptions}}
+            {{this}} <br>
+          {{/each}}
+          </td>
+          <td class="text-right" width="80px">{{this.price}}</td>
+          <td class="text-right" width="80px">{{this.length}}</td>
+          <td class="text-right" width="80px">{{this.subAmount}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+      <tfoot>
+        <tr>
+          <th colspan="7">Tổng giá trị</th>
+          <th class="text-right">{{orderAmount}}</th>
+        </tr>
+      </tfoot>
+    </table>
+
+    <h4>Lịch sử thanh toán</h4>
+    <table>
+      <thead class="text-center">
+        <tr>
+          <th>Thời gian</th>
+          <th>Số tiền (đ)</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each order_payment_invoices}}
+        <tr>
+          <td class="text-center">{{this.createdAt}}</td>
+          <td class="text-right">{{this.amount}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+      <tfoot>
+        <tr>
+          <th>Tổng giá trị</th>
+          <th class="text-right">{{paymentAmount}}</th>
+        </tr>
+        <tr>
+          <th>Tổng giá trị đơn hàng</th>
+          <th class="text-right">{{invoiceAmount}}</th>
+        </tr>
+        <tr>
+          <th>Còn nợ</th>
+          <th class="text-right">{{debtAmount}}</th>
+        </tr>
+      </tfoot>
+    </table>
+  </body>
+</html>
