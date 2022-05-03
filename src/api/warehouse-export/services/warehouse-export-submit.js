@@ -6,7 +6,7 @@
 
 const getExportData = async (id) => {
     const exportData = await strapi.entityService.findOne('api::warehouse-export.warehouse-export', id, {
-        populate: ['branch', 'products', 'products.inventory_item'],
+        populate: ['branch', 'products', 'products.inventory_item', 'order'],
     });
     return exportData;
 }
@@ -39,7 +39,12 @@ const updateSubmitStatus = async (id, userId) => {
 module.exports = () => ({
     async submitExport(id, userId) {
         const exportData = await getExportData(id);
-        exportData.products.forEach(item => updateInventory(item));
-        updateSubmitStatus(id, userId)
+        for (let item of exportData.products) {
+            await updateInventory(item);
+        }
+        await updateSubmitStatus(id, userId);
+        if (exportData.order) {
+            await strapi.service('api::order.order-utils').createOrderStatus(exportData.order.id, 'packaged');
+        }
     }
 });
