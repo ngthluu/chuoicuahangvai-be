@@ -62,7 +62,7 @@ module.exports = () => ({
         .filter((_) => _.id == item.id)
         .reduce((sum, _) => sum + _.length, 0);
 
-      const length = inputDataLength < inventoryLength ? inputDataLength : 1;
+      const length = inputDataLength <= inventoryLength ? inputDataLength : 1;
 
       return { ...item, length, inventoryLength };
     })

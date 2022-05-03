@@ -25,10 +25,16 @@ module.exports = () => ({
     async addReceiveAddress(userId, data) {
       const {firstname, lastname, phone, address, ward_id, is_default} = data;
       const userData = await getUserData(userId);
+      let receiveAddress = userData.receive_address;
+      if (is_default) {
+        for (const i = 0; i < receiveAddress.length; ++i) {
+          receiveAddress[i].is_default = false;
+        }
+      }
       await strapi.entityService.update('plugin::users-permissions.user', userData.id, {
         data: {
           receive_address: [
-            ...userData.receive_address,
+            ...receiveAddress,
             {
               name: {
                 firstname: firstname,
@@ -65,6 +71,9 @@ module.exports = () => ({
             is_default: is_default,
           };
         } else {
+          if (is_default) {
+            item.is_default = false;
+          }
           return item;
         }
       });
