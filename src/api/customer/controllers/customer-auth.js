@@ -26,4 +26,8 @@ module.exports = {
   resetPassword: async (ctx, next) => {
     await strapi.service('api::customer.customer-auth-reset-password').resetPassword(ctx);
   },
+
+  registerConfirm: async (ctx, next) => {
+    await strapi.service('api::customer.customer-auth-register-confirm').confirm(ctx);
+  }
 };

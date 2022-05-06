@@ -5,7 +5,7 @@ const crypto = require('crypto');
 const urlJoin = require('url-join');
 const _ = require('lodash');
 const utils = require('@strapi/utils');
-const { yup, validateYupSchema, sanitize, getAbsoluteServerUrl } = utils;
+const { yup, validateYupSchema, sanitize } = utils;
 const { ApplicationError, ValidationError } = utils.errors;
 
 const sanitizeUser = (user, ctx) => {
@@ -29,7 +29,7 @@ const subjectTemplate = `Xác nhận đăng ký tài khoản mua vải lẻ`;
 const messageTemplate = `<p>Cám ơn bạn đã đăng ký tài khoản trên hệ thống.</p>
 
 <p>Để hoàn tất đăng ký, vui lòng bấm vào đường link dưới đây:</p>
-<p><%= URL %>?confirmation=<%= CODE %></p>
+<p><%= URL %>?code=<%= CODE %></p>
 
 <p>Cám ơn rất nhiều.</p>`;
 
@@ -43,12 +43,11 @@ const sendConfirmationEmail = async (user) => {
 
   await strapi.plugin('users-permissions').service('user').edit(user.id, { confirmationToken });
 
-  const apiPrefix = strapi.config.get('api.rest.prefix');
   const subject = _.template(subjectTemplate)({
     USER: sanitizedUserInfo
   });
   const message = _.template(messageTemplate)({
-    URL: urlJoin(getAbsoluteServerUrl(strapi.config), apiPrefix, '/auth/email-confirmation'),
+    URL: 'http://localhost:3000/register-confirmation',
     USER: sanitizedUserInfo,
     CODE: confirmationToken,
   });

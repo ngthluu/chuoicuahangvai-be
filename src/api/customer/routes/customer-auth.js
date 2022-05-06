@@ -36,6 +36,15 @@ module.exports = {
         prefix: '',
       },
     },
+    {
+      method: 'POST',
+      path: '/auth/register-confirmation',
+      handler: 'customer-auth.registerConfirm',
+      config: {
+        middlewares: ['plugin::users-permissions.rateLimit'],
+        prefix: '',
+      },
+    },
   ]
 };
   

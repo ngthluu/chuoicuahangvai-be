@@ -13,34 +13,25 @@ const sanitizeUser = (user, ctx) => {
 };
 
 module.exports = () => ({
-  async resetPassword(ctx) {
+  async confirm(ctx) {
     const params = _.assign({}, ctx.request.body, ctx.params);
-    if (
-      params.password &&
-      params.passwordConfirmation &&
-      params.password === params.passwordConfirmation &&
-      params.code
-    ) {
+    if (params.code) {
       const user = await strapi
         .query('plugin::users-permissions.user')
-        .findOne({ where: { resetPasswordToken: `${params.code}` } });
+        .findOne({ where: { confirmationToken: `${params.code}` } });
 
       if (!user) {
         throw new ValidationError('Incorrect code provided');
       }
 
-      await strapi.plugin('users-permissions').service('user').edit(user.id, { resetPasswordToken: null, password: params.password });
+      await strapi.plugin('users-permissions').service('user').edit(user.id, { 
+        confirmationToken: null, confirmed: true
+      });
   
       ctx.send({
         jwt: strapi.plugin('users-permissions').service('jwt').issue({ id: user.id }),
         user: await sanitizeUser(user, ctx),
       });
-    } else if (
-      params.password &&
-      params.passwordConfirmation &&
-      params.password !== params.passwordConfirmation
-    ) {
-      throw new ValidationError('Passwords do not match');
     } else {
       throw new ValidationError('Incorrect params provided');
     }
