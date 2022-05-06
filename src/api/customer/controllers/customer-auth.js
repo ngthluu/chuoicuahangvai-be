@@ -1,9 +1,5 @@
 'use strict';
 
-/**
- * A set of functions called "actions" for `warehouse-catalogue-submit`
- */
-
 const utils = require('@strapi/utils');
 const { ValidationError } = utils.errors;
 
@@ -47,6 +43,7 @@ module.exports = {
       data: { role: await getCustomerRoleId() }
     });
   },
+
   login: async (ctx, next) => {
     await strapi.controller('plugin::users-permissions.auth').callback(ctx);
     const { id } = ctx.response.body.user;
@@ -56,5 +53,9 @@ module.exports = {
     if (user.role.name !== 'Customer') {
       throw new ValidationError('Invalid identifier or password');
     }
-  }
+  },
+
+  forgotPassword: async (ctx, next) => {
+    await strapi.service('api::customer.customer-auth-forgot-password').forgotPassword(ctx);
+  },
 };

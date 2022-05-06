@@ -12,6 +12,7 @@ module.exports = ({ env }) => ({
       },
       settings: {
         defaultFrom: env('SMTP_DEFAULT_FROM'),
+        defaultReplyTo: env('SMTP_DEFAULT_FROM'),
       },
     },
   },
