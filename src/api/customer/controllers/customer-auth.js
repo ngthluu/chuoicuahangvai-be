@@ -58,4 +58,8 @@ module.exports = {
   forgotPassword: async (ctx, next) => {
     await strapi.service('api::customer.customer-auth-forgot-password').forgotPassword(ctx);
   },
+
+  resetPassword: async (ctx, next) => {
+    await strapi.service('api::customer.customer-auth-reset-password').resetPassword(ctx);
+  },
 };

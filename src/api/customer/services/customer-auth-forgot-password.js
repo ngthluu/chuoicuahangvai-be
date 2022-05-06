@@ -4,15 +4,7 @@ const _ = require('lodash');
 const crypto = require('crypto');
 const utils = require('@strapi/utils');
 const { env } = require('process');
-const { sanitize } = utils;
 const { ApplicationError, ValidationError } = utils.errors;
-
-const sanitizeUser = (user, ctx) => {
-  const { auth } = ctx.state;
-  const userSchema = strapi.getModel('plugin::users-permissions.user');
-
-  return sanitize.contentAPI.output(user, userSchema, { auth });
-};
 
 const emailRegExp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 const subjectTemplate = `Khôi phục mật khẩu cho tài khoản mua vải lẻ`;
