@@ -75,9 +75,7 @@
       "component": "components.address"
     },
     "phone": {
-      "type": "string",
-      "minLength": 9,
-      "maxLength": 15
+      "type": "string"
     },
     "name": {
       "type": "component",
