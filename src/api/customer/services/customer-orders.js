@@ -28,7 +28,12 @@ const getOrdersOfUser = async (userId, orderId=null) => {
       'orders.products.inventory_item.sku_quantity',
       'orders.products.inventory_item.sku_quantity.sku',
       'orders.products.inventory_item.sku_quantity.sku.product',
-      
+      'orders.products.inventory_item.sku_quantity.sku.images',
+      'orders.products.inventory_item.sku_quantity.sku.pattern',
+      'orders.products.inventory_item.sku_quantity.sku.stretch',
+      'orders.products.inventory_item.sku_quantity.sku.width',
+      'orders.products.inventory_item.sku_quantity.sku.origin',
+      'orders.products.inventory_item.sku_quantity.sku.color',
     ],
   });
   if (orderId) {
