@@ -12,9 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "signup_section": {
-      "type": "richtext"
-    },
     "member_responses": {
       "type": "component",
       "repeatable": true,
