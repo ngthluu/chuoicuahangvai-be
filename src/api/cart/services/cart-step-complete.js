@@ -1,7 +1,7 @@
 'use strict';
 
 const utils = require('@strapi/utils');
-const { ValidationError } = utils.errors;
+const { ApplicationError, ValidationError } = utils.errors;
 
 const { yup, validateYupSchema } = require('@strapi/utils');
 const validateSchema = yup.object().shape({
@@ -42,6 +42,9 @@ module.exports = () => ({
     await validateYupSchema(validateSchema)(data);
     
     let { note, isDebt, deliveryInfo, deliveryMethod } = data;
+    if (isDebt && !user) {
+      throw new ApplicationError('Cant checkout a debt order for anonymous user');
+    }
     const cartData = await strapi.service('api::cart.cart-step-cart').process(user, data);
 
     const deliveryMethods = await strapi.service('api::cart.cart-step-delivery').getDeliveryMethods(); 

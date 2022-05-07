@@ -158,6 +158,9 @@ module.exports = () => ({
     await validateYupSchema(validateSchema)(data);
     
     let { note, isDebt, deliveryInfo, deliveryMethod, paymentType } = data;
+    if (isDebt && !user) {
+      throw new ApplicationError('Cant checkout a debt order for anonymous user');
+    }
     const { skus, price } = await strapi.service('api::cart.cart-step-cart').process(user, data);
 
     const deliveryMethods = await strapi.service('api::cart.cart-step-delivery').getDeliveryMethods(); 
