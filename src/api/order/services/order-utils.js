@@ -35,8 +35,8 @@ module.exports = () => ({
         let data = {
             order: orderId,
             customer_name: {
-                firstname: orderData.customer.name.firstname,
-                lastname: orderData.customer.name.lastname,
+                firstname: orderData.customer.name ? orderData.customer.name.firstname : '',
+                lastname: orderData.customer.name ? orderData.customer.name.lastname : '',
             },
             customer_phone: orderData.customer.phone,
             products: orderData.products.map((item) => ({ 
