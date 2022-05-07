@@ -24,6 +24,9 @@ module.exports = () => ({
                 'products.inventory_item',
                 'products.inventory_item.sku_quantity',
                 'products.inventory_item.sku_quantity.sku',
+                'receive_address',
+                'receive_address.name',
+                'receive_address.address',
             ]
         });
 
@@ -41,6 +44,23 @@ module.exports = () => ({
             price: orderData.products.reduce(
                 (prev, item) => prev + 0.01 * item.length * item.inventory_item.sku_quantity.sku.price, 
             0),
+        }
+        if (orderData.receive_address) {
+            data = {
+                ...data,
+                receive_address: {
+                    name: {
+                        firstname: orderData.receive_address.name.firstname,
+                        lastname: orderData.receive_address.name.lastname,
+                    },
+                    address: {
+                        address: orderData.receive_address.address.address,
+                        address_three_levels: orderData.receive_address.address.address_three_levels,
+                    },
+                    phone: orderData.receive_address.phone,
+                    is_default: orderData.receive_address.is_default,
+                }
+            }
         }
 
         const { id } = await strapi.service('api::order-invoice.order-invoice').create({

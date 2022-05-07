@@ -1,50 +1,49 @@
 'use strict';
 
-const processOrdersData = (orders) => {
-  return orders.filter((item) => {
-    return item.type != "pos";
-  }).map((item) => {
-    return {
-      code: `ORDER#${item.id}`,
-      orderAmount: item.products.reduce((sum, _) => sum + parseInt(_.inventory_item.sku_quantity.sku.price) * parseInt(_.length) * 0.01, 0),
-      invoiceAmount: item.order_invoice ? item.order_invoice.price : 0,
-      ...item,
-    }
-  });
+const utils = require('@strapi/utils');
+const { ApplicationError } = utils.errors;
+
+const processInvoiceData = (invoice) => {
+  if (!invoice) {
+    throw new ApplicationError('Invoice does not exist');
+  }
+  return {
+    code: `S-INVOICE#${invoice.id}`,
+    order_code: `ORDER#${invoice.order.id}`,
+    paidAmount: invoice.order_payment_invoices.reduce((sum, _) => sum + _.amount, 0),
+    ...invoice,
+  }
 }
 
-const getOrdersOfUser = async (userId, orderId=null) => {
-  let userData = await strapi.entityService.findOne('plugin::users-permissions.user', userId, {
+const getInvoiceById = async (invoiceId) => {
+  let invoiceData = await strapi.entityService.findOne('api::order-invoice.order-invoice', invoiceId, {
     populate: [
-      'orders',
-      'orders.order_invoice',
-      'orders.order_statuses',
-      'orders.receive_address',
-      'orders.receive_address.name',
-      'orders.receive_address.address',
-      'orders.receive_address.address.address_three_levels',
-      'orders.products',
-      'orders.products.inventory_item',
-      'orders.products.inventory_item.sku_quantity',
-      'orders.products.inventory_item.sku_quantity.sku',
-      'orders.products.inventory_item.sku_quantity.sku.product',
-      'orders.products.inventory_item.sku_quantity.sku.images',
-      'orders.products.inventory_item.sku_quantity.sku.pattern',
-      'orders.products.inventory_item.sku_quantity.sku.stretch',
-      'orders.products.inventory_item.sku_quantity.sku.width',
-      'orders.products.inventory_item.sku_quantity.sku.origin',
-      'orders.products.inventory_item.sku_quantity.sku.color',
+      'order',
+      'customer_name',
+      'products',
+      'products.inventory_item',
+      'products.inventory_item.sku_quantity',
+      'products.inventory_item.sku_quantity.sku',
+      'products.inventory_item.sku_quantity.sku.product',
+      'products.inventory_item.sku_quantity.sku.images',
+      'products.inventory_item.sku_quantity.sku.pattern',
+      'products.inventory_item.sku_quantity.sku.stretch',
+      'products.inventory_item.sku_quantity.sku.width',
+      'products.inventory_item.sku_quantity.sku.origin',
+      'products.inventory_item.sku_quantity.sku.color',
+      'receive_address',
+      'receive_address.name',
+      'receive_address.address',
+      'receive_address.address.address_three_levels',
+      'order_payment_invoices',
     ],
-  });
-  if (orderId) {
-    userData.orders = userData.orders.filter((item) => item.id == orderId);
-  }
-  return processOrdersData(userData.orders);
+  })
+  return processInvoiceData(invoiceData);
 }
 
 module.exports = () => ({
-    async getInvoiceById(userId, orderId) {
-      const orders = await getInvoicesOfUser(userId, orderId);
-      return orders;
+    async getInvoiceById(invoiceId) {
+      const invoice = await getInvoiceById(invoiceId);
+      return invoice;
     },
 });

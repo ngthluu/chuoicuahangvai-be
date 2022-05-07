@@ -41,7 +41,7 @@ const getOrdersOfUser = async (userId) => {
   return processOrdersData(orders);
 }
 
-const getOrdersOfUserById = async (userId, orderId) => {
+const getOrderOfUserById = async (userId, orderId) => {
   let orderData = await strapi.entityService.findOne('api::order.order', orderId, {
     filters: {
       customer: { id: userId }
@@ -76,7 +76,7 @@ module.exports = () => ({
     },
 
     async getOrderById(userId, orderId) {
-      const orders = await getOrdersOfUserById(userId, orderId);
+      const orders = await getOrderOfUserById(userId, orderId);
       return orders;
     },
 });
