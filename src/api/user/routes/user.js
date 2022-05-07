@@ -27,5 +27,23 @@ module.exports = {
         middlewares: [],
       },
      },
+    {
+      method: 'POST',
+      path: '/user-reset-password',
+      handler: 'user.resetPassword',
+      config: {
+        policies: [],
+        middlewares: [],
+      },
+    },
+    {
+      method: 'POST',
+      path: '/user-reset-password/:id',
+      handler: 'user.resetPasswordForUser',
+      config: {
+        policies: [],
+        middlewares: [],
+      },
+    },
   ],
 };

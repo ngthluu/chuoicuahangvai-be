@@ -96,13 +96,12 @@ module.exports = () => ({
         'products.inventory_item',
       ],
       filters: {
-        order_statuses: { status: { $notIn: ['delivery', 'success'] } }
+        order_statuses: { status: { $notIn: ['delivery', 'success', 'return', 'cancel'] } }
       }
     });
     const pendingInventoryItems = pendingOrders
       .map((item) => item.products)
       .flat();
-    strapi.log.info(JSON.stringify(pendingInventoryItems));
     const cartItemIds = skus.map((item) => item.id);
     const inventories = await strapi.entityService.findMany('api::warehouse-inventory.warehouse-inventory', {
       sort: ['createdAt:asc'],
