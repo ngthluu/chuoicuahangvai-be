@@ -1,7 +1,9 @@
 'use strict';
 
 const utils = require('@strapi/utils');
-const { ValidationError } = utils.errors;
+const { ValidationError, ApplicationError } = utils.errors;
+const _ = require('lodash');
+const { env } = require('process');
 
 const { yup, validateYupSchema } = require('@strapi/utils');
 const validateSchema = yup.object().shape({
@@ -37,6 +39,53 @@ const groupBy = (x, f) => {
     }
   }
   return result;
+}
+
+const fs = require("fs");
+const emailTemplate = fs.readFileSync('./data/template/template-checkout-initialize.html', "utf8");
+
+const sendOrderConfirmationMail = async (order) => {
+  
+  const orderCustomerName = order.receive_address
+    ? `${order.receive_address.name.firstname} ${order.receive_address.name.lastname}`
+    : '';
+  const orderCustomerPhone = order.receive_address
+    ? `${order.receive_address.phone}`
+    : '';
+  const orderAddress = order.receive_address
+    ? `${order.receive_address.address.address}, ${order.receive_address.address.address_three_levels.ward}, ${order.receive_address.address.address_three_levels.district}, ${order.receive_address.address.address_three_levels.city}`
+    : '';
+
+
+  const subject = _.template(`Xác nhận đơn hàng ORDER#<%= ORDER_ID %>`)({ ORDER_ID: order.id });
+  const message = _.template(emailTemplate)({
+    CUSTOMER_NAME: orderCustomerName,
+    ORDER_CODE: `ORDER#${order.id}`,
+    PAYMENT_METHOD: '',
+    CUSTOMER_ADDRESS: orderAddress,
+    CUSTOMER_EMAIL: order.customer.email,
+    CUSTOMER_PHONE: orderCustomerPhone,
+    PRODUCTS: order.products,
+    ORDER_TOTAL: order.products.reduce((sum, _) => {
+      return sum + 0.01 * _.length * _.inventory_item.sku_quantity.sku.price
+    }, 0),
+  });
+
+  try {
+    await strapi
+      .plugin('email')
+      .service('email')
+      .send({
+        to: order.customer.email,
+        from: `${env.SMTP_DEFAULT_NAME} <${env.SMTP_DEFAULT_FROM}>`,
+        replyTo: order.customer.email,
+        subject: subject,
+        text: message,
+        html: message,
+      });
+  } catch (err) {
+    throw new ApplicationError(err.message);
+  }
 }
 
 module.exports = () => ({
@@ -129,10 +178,11 @@ module.exports = () => ({
     } else {
         const customerData = await strapi
         .service('api::customer.customer-create')
-        .createAnonymous({
+        .createAnonymousWithEmail({
             firstName: deliveryInfo.firstname,
             lastName: deliveryInfo.lastname,
             phone: deliveryInfo.phone,
+            email: deliveryInfo.email,
         });
         orderData =  {...orderData, customer: customerData.id  };
     }
@@ -141,12 +191,29 @@ module.exports = () => ({
     let orderIds = [];
     for (const item of items) {
       const order = await strapi.service('api::order.order').create({
-        data: {
-          ...orderData,
-          ...item,
-        }
+        data: { ...orderData, ...item },
+        populate: [
+          'receive_address',
+          'receive_address.name',
+          'receive_address.address',
+          'receive_address.address.address_three_levels',
+          'customer',
+          'customer.name',
+          'products',
+          'products.inventory_item',
+          'products.inventory_item.sku_quantity',
+          'products.inventory_item.sku_quantity.sku',
+          'products.inventory_item.sku_quantity.sku.product',
+          'products.inventory_item.sku_quantity.sku.color',
+          'products.inventory_item.sku_quantity.sku.pattern',
+          'products.inventory_item.sku_quantity.sku.stretch',
+          'products.inventory_item.sku_quantity.sku.width',
+          'products.inventory_item.sku_quantity.sku.origin',
+          'products.inventory_item.sku_quantity.sku.images',
+        ]
       });
       orderIds.push(order.id);
+      await sendOrderConfirmationMail(order);
       await strapi.service('api::order.order-utils').createOrderStatus(order.id, 'initialize');
     }
     // Online payment here
