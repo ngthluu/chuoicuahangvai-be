@@ -28,6 +28,7 @@ module.exports = () => ({
                 'receive_address.name',
                 'receive_address.address',
                 'receive_address.address.address_three_levels',
+                'delivery_method',
             ]
         });
 
@@ -45,8 +46,17 @@ module.exports = () => ({
             price: orderData.products.reduce(
                 (prev, item) => prev + 0.01 * item.length * item.inventory_item.sku_quantity.sku.price, 
             0),
+            delivery_method: {}
         }
-        strapi.log.info(JSON.stringify(orderData.receive_address));
+        if (orderData.delivery_method) {
+            data = {
+                ...data, 
+                delivery_method: {
+                    amount: orderData.delivery_method.amount,
+                    method: orderData.delivery_method.method,
+                },
+            }
+        }
         if (orderData.receive_address) {
             data = {
                 ...data,

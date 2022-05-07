@@ -8,7 +8,15 @@ module.exports = () => ({
     async createPos(user, data) {
 
         // Create export
-        const exportData = await strapi.service('api::warehouse-export.warehouse-export').create({ data: data });
+        const exportData = await strapi.service('api::warehouse-export.warehouse-export').create({ 
+            data: data,
+            populate: [
+                'products',
+                'products.inventory_item',
+                'products.inventory_item.sku_quantity',
+                'products.inventory_item.sku_quantity.sku',
+            ],
+        });
         
         // Submit export
         await strapi.service('api::warehouse-export.warehouse-export-submit').submitExport(exportData.id, user.id); 
@@ -20,13 +28,17 @@ module.exports = () => ({
         } 
 
         // Create order
+        const orderCost = exportData.products.reduce((sum, _) => {
+            return sum + parseInt(_.inventory_item.sku_quantity.sku.price) * parseInt(_.length) * 0.01;
+        }, 0);
         const orderData = await strapi.service('api::order.order').create({
             data: {
                 customer: data.customerId,
                 ...data,
                 export: exportData.id,
                 type: 'pos',
-            }
+                isDebt: data.paymentCost < orderCost,
+            },
         });
 
         // Create order status

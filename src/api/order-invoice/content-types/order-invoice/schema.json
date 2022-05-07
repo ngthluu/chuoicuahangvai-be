@@ -45,10 +45,6 @@
       "repeatable": false,
       "component": "components.receive-address"
     },
-    "isDebt": {
-      "type": "boolean",
-      "default": false
-    },
     "delivery_method": {
       "type": "component",
       "repeatable": false,
