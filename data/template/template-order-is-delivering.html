@@ -1,0 +1,72 @@
+<div style="width:100%; background:#5D5D5D">
+    <div style="width:600px; font-family:Arial, Helvetica, sans-serif; margin:0px auto">
+        <div style="width:92%; background:#FFF; color:#464c55; font-size:12px; border-bottom:solid 3px #DD3333; padding:3% 4% 0px; float:left">
+            <div style="width:100%; font-weight:bold; margin:0px 0px 20px; float:left">
+                Kính chào quý khách,
+            </div>
+            <div style="width:100%; line-height:20px; float:left">
+                <p>Chúng tôi rất vui thông báo rằng đơn hàng <strong><%= ORDER_CODE %></strong> đã được bàn giao cho đơn vị vận chuyển. Quý khách vui lòng giữ liên lạc qua điện thoại.</p>
+                <p>Thông tin người nhận hàng:
+                    <strong>
+                        <%= CUSTOMER_NAME %>, <%= CUSTOMER_ADDRESS %>
+                    </strong>
+                </p>
+                <p>Số điện thoại: <strong><%= CUSTOMER_PHONE %></strong></p>
+                <p>Chi tiết đơn hàng:</p>
+                <table width="100%" cellpadding="10px" cellspacing="0px" style="border:solid 1px #DDD">
+                    <tr style="background:#DD3333; color:#FFF; font-size:13px">
+                        <th align="left">Sản phẩm</th>
+                        <th align="right">Đơn giá (đ/m)</th>
+                        <th align="right">Chiều dài (cm)</th>
+                        <th align="right">Thành tiền</th>
+                    </tr>
+                    <% _.forEach(PRODUCTS, function(item) { %>
+                        <tr>
+                            <td colspan="4" style="background:#F1F1F1; height:1px; padding:0px"></td>
+                        </tr>
+                        <tr style="color:#666; font-size:12px">
+                            <td align="left">
+                                <div><strong><%= item.inventory_item.sku_quantity.sku.product.name %></strong></div>
+                                <div>Mã sản phẩm: <%= item.inventory_item.sku_quantity.sku.sku %> </div>
+                            </td>
+                            <td align="right">
+                                <div><%= parseInt(item.inventory_item.sku_quantity.sku.price).toLocaleString() %> đ</div>
+                            </td>
+                            <td align="right"><%= item.length %></td>
+                            <td align="right">
+                                <div><%= parseInt(0.01 * item.inventory_item.sku_quantity.sku.price * item.length).toLocaleString() %> đ</div>
+                            </td>
+                        </tr>
+                    <% }) %>
+                    <tr>
+                        <td colspan="4" style="background:#F1F1F1; height:1px; padding:0px"></td>
+                    </tr>
+                    <tr style="color:#666; font-size:13px">
+                        <td align="left" colspan="3"><strong>Tổng cộng</strong></td>
+                        <td align="right"><%= parseInt(ORDER_TOTAL).toLocaleString() %> đ</td>
+                    </tr>
+                    <tr style="color:#666; font-size:13px">
+                        <td align="left" colspan="3"><strong>Phí vận chuyển</strong></td>
+                        <td align="right"><%= parseInt(DELIVERY_COST).toLocaleString() %> đ</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" style="background:#F1F1F1; height:1px; padding:0px"></td>
+                    </tr>
+                    <tr style="background:#464c55; color:#fff; font-size:13px">
+                        <td align="left" colspan="3"><strong>Tổng thành tiền</strong></td>
+                        <td align="right">
+                            <strong><%= (parseInt(ORDER_TOTAL) + parseInt(DELIVERY_COST)).toLocaleString() %> đ</strong>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div style="width:100%; margin:20px 0px; float:left">
+                <i>Trân trọng,</i>
+                <div style="height:5px; clear:both"></div>
+                <span><strong>Cửa hàng vải lẻ</strong>.</span>
+            </div>
+        </div>
+        <div style="width:100%; display:block; clear:both"></div>
+    </div>
+    <div style="width:100%; display:block; clear:both"></div>
+</div>
