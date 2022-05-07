@@ -35,7 +35,7 @@
                             </td>
                             <td align="right"><%= item.length %></td>
                             <td align="right">
-                                <div><%= parseInt(item.inventory_item.sku_quantity.sku.price * item.length).toLocaleString() %> đ</div>
+                                <div><%= parseInt(0.01 * item.inventory_item.sku_quantity.sku.price * item.length).toLocaleString() %> đ</div>
                             </td>
                         </tr>
                     <% }) %>

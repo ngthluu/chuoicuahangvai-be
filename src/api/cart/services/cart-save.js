@@ -90,14 +90,25 @@ const sendOrderConfirmationMail = async (order) => {
 module.exports = () => ({
 
   async getSuitableInventoryItems(skus) {
+    const pendingOrders = await strapi.entityService.findMany('api::order.order', {
+      populate: [
+        'products',
+        'products.inventory_item',
+      ],
+      filters: {
+        order_statuses: { status: { $notIn: ['delivery', 'success'] } }
+      }
+    });
+    const pendingInventoryItems = pendingOrders
+      .map((item) => item.products)
+      .flat();
+    strapi.log.info(JSON.stringify(pendingInventoryItems));
     const cartItemIds = skus.map((item) => item.id);
     const inventories = await strapi.entityService.findMany('api::warehouse-inventory.warehouse-inventory', {
       sort: ['createdAt:asc'],
       filters: { 
         sku_quantity: {
-          sku: {
-            id: { $in: cartItemIds },
-          },
+          sku: { id: { $in: cartItemIds } },
         }, 
       },
       populate: [
@@ -108,18 +119,18 @@ module.exports = () => ({
     });
     const chooseItems = skus
     .map((item) => {
-      const inventoriesWithSku = inventories.filter((item2) => {
-        return item2.sku_quantity.sku.id == item.id;
-      });
+      const inventoriesWithSku = inventories.filter((_) => _.sku_quantity.sku.id == item.id);
       let data = [];
-      for (const inventoryWithSkuItem of inventoriesWithSku) {
-        const inventoryWithSkuItemLength = inventoryWithSkuItem.sku_quantity.length;
+      for (const _ of inventoriesWithSku) {
+        const pendingItems = pendingInventoryItems.filter((__) => __.inventory_item.id == _.id);
+        const pendingLength = pendingItems.reduce((sum, __) => sum + __.length, 0);
+        const inventoryWithSkuItemLength = _.sku_quantity.length - pendingLength;
         if (inventoryWithSkuItemLength <= 0) continue;
         if (item.length < inventoryWithSkuItemLength) {
-          data.push({...inventoryWithSkuItem, length: item.length});
+          data.push({..._, length: item.length});
           break;
         }
-        data.push({...inventoryWithSkuItem, length: inventoryWithSkuItemLength});
+        data.push({..._, length: inventoryWithSkuItemLength});
         item.length -= inventoryWithSkuItemLength;
       }
       return data;
@@ -212,7 +223,7 @@ module.exports = () => ({
         ]
       });
       orderIds.push(order.id);
-      await sendOrderConfirmationMail(order);
+      // await sendOrderConfirmationMail(order);
       await strapi.service('api::order.order-utils').createOrderStatus(order.id, 'initialize');
     }
     // Online payment here
