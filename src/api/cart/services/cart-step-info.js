@@ -33,7 +33,13 @@ module.exports = () => ({
 
     if (user) {
       const receiveAddress = await strapi.service('api::customer.customer-receive-address').getReceiveAddressList(user.id);
-      returnData = { ...returnData, receiveAddress, email: user.email }
+      returnData = {
+        ...returnData,
+        receiveAddress: {
+          ...receiveAddress,
+          email: user.email
+        }
+      }
     }
 
     return returnData;
