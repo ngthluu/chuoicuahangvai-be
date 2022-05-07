@@ -22,7 +22,7 @@ const validateSchema = yup.object().shape({
     phone: yup.string().required(),
   }),
   deliveryMethod: yup.object().required().shape({
-    id: yup.number().required(),
+    id: yup.string().required().oneOf(['free', 'fast']),
   }),
 });
 

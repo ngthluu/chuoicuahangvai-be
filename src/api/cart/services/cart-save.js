@@ -24,7 +24,7 @@ const validateSchema = yup.object().shape({
     phone: yup.string().required(),
   }),
   deliveryMethod: yup.object().required().shape({
-    id: yup.number().required(),
+    id: yup.string().required().oneOf(['free', 'fast']),
   }),
   paymentType: yup.string().required().oneOf(['cod', 'online']),
 });
@@ -68,6 +68,7 @@ const sendOrderConfirmationMail = async (order) => {
     ORDER_TOTAL: order.products.reduce((sum, _) => {
       return sum + 0.01 * _.length * _.inventory_item.sku_quantity.sku.price
     }, 0),
+    DELIVERY_COST: order.delivery_method.amount,
   });
 
   try {
@@ -168,7 +169,6 @@ module.exports = () => ({
     if (realDeliveryMethod.length == 0) {
       throw new ValidationError('Invalid delivery method');
     }
-    const totalPrice = price + realDeliveryMethod[0].cost;
 
     let orderData = {
         type: paymentType,
@@ -184,6 +184,11 @@ module.exports = () => ({
             phone: deliveryInfo.phone,
         },
         note: note,
+        isDebt: isDebt,
+        delivery_method: {
+          method: realDeliveryMethod[0].id,
+          amount: realDeliveryMethod[0].cost,
+        },
     }
     if (user) {
         orderData =  { ...orderData, customer: user.id  };
@@ -222,6 +227,7 @@ module.exports = () => ({
           'products.inventory_item.sku_quantity.sku.width',
           'products.inventory_item.sku_quantity.sku.origin',
           'products.inventory_item.sku_quantity.sku.images',
+          'delivery_method',
         ]
       });
       await strapi.service('api::order.order-utils').createOrderStatus(order.id, 'initialize');
@@ -233,7 +239,7 @@ module.exports = () => ({
       const url = await strapi.service('api::cart.cart-vnpay').createPaymentUrl({
         request,
         orders: orderIds,
-        totalAmount: totalPrice,
+        totalAmount: price + realDeliveryMethod[0].cost,
       });
       return { status: 'ok', url: url };
     }

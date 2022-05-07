@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_components_delivery_methods",
+  "info": {
+    "displayName": "Delivery Method",
+    "icon": "taxi"
+  },
+  "options": {},
+  "attributes": {
+    "amount": {
+      "type": "biginteger"
+    },
+    "method": {
+      "type": "enumeration",
+      "enum": [
+        "free",
+        "fast"
+      ]
+    }
+  }
+}

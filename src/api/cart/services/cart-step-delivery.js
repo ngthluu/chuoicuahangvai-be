@@ -25,13 +25,13 @@ const validateSchema = yup.object().shape({
 
 const deliveryMethods = [
   {
-    id: 1,
+    id: 'free',
     name: 'Vận chuyển miễn phí',
     estimate_time: '5-10 ngày',
     cost: 0,
   }, 
   {
-    id: 2,
+    id: 'fast',
     name: 'Vận chuyển nhanh',
     estimate_time: '1-2 ngày',
     cost: 40000,
