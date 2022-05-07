@@ -45,7 +45,7 @@ module.exports = () => ({
             })),
             price: orderData.products.reduce(
                 (prev, item) => prev + 0.01 * item.length * item.inventory_item.sku_quantity.sku.price, 
-            0),
+                orderData.delivery_method ? parseInt(orderData.delivery_method.amount) : 0),
             delivery_method: {}
         }
         if (orderData.delivery_method) {
