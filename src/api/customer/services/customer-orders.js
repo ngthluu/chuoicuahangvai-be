@@ -13,33 +13,60 @@ const processOrdersData = (orders) => {
   });
 }
 
-const getOrdersOfUser = async (userId, orderId=null) => {
-  let userData = await strapi.entityService.findOne('plugin::users-permissions.user', userId, {
+const getOrdersOfUser = async (userId) => {
+  let orders = await strapi.entityService.findMany('api::order.order', {
+    filters: {
+      customer: { id: userId }
+    },
     populate: [
-      'orders',
-      'orders.order_invoice',
-      'orders.order_statuses',
-      'orders.receive_address',
-      'orders.receive_address.name',
-      'orders.receive_address.address',
-      'orders.receive_address.address.address_three_levels',
-      'orders.products',
-      'orders.products.inventory_item',
-      'orders.products.inventory_item.sku_quantity',
-      'orders.products.inventory_item.sku_quantity.sku',
-      'orders.products.inventory_item.sku_quantity.sku.product',
-      'orders.products.inventory_item.sku_quantity.sku.images',
-      'orders.products.inventory_item.sku_quantity.sku.pattern',
-      'orders.products.inventory_item.sku_quantity.sku.stretch',
-      'orders.products.inventory_item.sku_quantity.sku.width',
-      'orders.products.inventory_item.sku_quantity.sku.origin',
-      'orders.products.inventory_item.sku_quantity.sku.color',
+      'order_invoice',
+      'order_statuses',
+      'receive_address',
+      'receive_address.name',
+      'receive_address.address',
+      'receive_address.address.address_three_levels',
+      'products',
+      'products.inventory_item',
+      'products.inventory_item.sku_quantity',
+      'products.inventory_item.sku_quantity.sku',
+      'products.inventory_item.sku_quantity.sku.product',
+      'products.inventory_item.sku_quantity.sku.images',
+      'products.inventory_item.sku_quantity.sku.pattern',
+      'products.inventory_item.sku_quantity.sku.stretch',
+      'products.inventory_item.sku_quantity.sku.width',
+      'products.inventory_item.sku_quantity.sku.origin',
+      'products.inventory_item.sku_quantity.sku.color',
     ],
-  });
-  if (orderId) {
-    userData.orders = userData.orders.filter((item) => item.id == orderId);
-  }
-  return processOrdersData(userData.orders);
+  })
+  return processOrdersData(orders);
+}
+
+const getOrdersOfUserById = async (userId, orderId) => {
+  let orderData = await strapi.entityService.findOne('api::order.order', orderId, {
+    filters: {
+      customer: { id: userId }
+    },
+    populate: [
+      'order_invoice',
+      'order_statuses',
+      'receive_address',
+      'receive_address.name',
+      'receive_address.address',
+      'receive_address.address.address_three_levels',
+      'products',
+      'products.inventory_item',
+      'products.inventory_item.sku_quantity',
+      'products.inventory_item.sku_quantity.sku',
+      'products.inventory_item.sku_quantity.sku.product',
+      'products.inventory_item.sku_quantity.sku.images',
+      'products.inventory_item.sku_quantity.sku.pattern',
+      'products.inventory_item.sku_quantity.sku.stretch',
+      'products.inventory_item.sku_quantity.sku.width',
+      'products.inventory_item.sku_quantity.sku.origin',
+      'products.inventory_item.sku_quantity.sku.color',
+    ],
+  })
+  return processOrdersData([orderData])[0];
 }
 
 module.exports = () => ({
@@ -49,7 +76,7 @@ module.exports = () => ({
     },
 
     async getOrderById(userId, orderId) {
-      const orders = await getOrdersOfUser(userId, orderId);
+      const orders = await getOrdersOfUserById(userId, orderId);
       return orders;
     },
 });
