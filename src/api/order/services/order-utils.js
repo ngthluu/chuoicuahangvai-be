@@ -27,6 +27,7 @@ module.exports = () => ({
                 'receive_address',
                 'receive_address.name',
                 'receive_address.address',
+                'receive_address.address.address_three_levels',
             ]
         });
 
@@ -45,6 +46,7 @@ module.exports = () => ({
                 (prev, item) => prev + 0.01 * item.length * item.inventory_item.sku_quantity.sku.price, 
             0),
         }
+        strapi.log.info(JSON.stringify(orderData.receive_address));
         if (orderData.receive_address) {
             data = {
                 ...data,
@@ -55,7 +57,7 @@ module.exports = () => ({
                     },
                     address: {
                         address: orderData.receive_address.address.address,
-                        address_three_levels: orderData.receive_address.address.address_three_levels,
+                        address_three_levels: orderData.receive_address.address.address_three_levels.id,
                     },
                     phone: orderData.receive_address.phone,
                     is_default: orderData.receive_address.is_default,
