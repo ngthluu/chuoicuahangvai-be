@@ -221,9 +221,9 @@ module.exports = () => ({
           'products.inventory_item.sku_quantity.sku.images',
         ]
       });
-      orderIds.push(order.id);
-      // await sendOrderConfirmationMail(order);
       await strapi.service('api::order.order-utils').createOrderStatus(order.id, 'initialize');
+      await sendOrderConfirmationMail(order);
+      orderIds.push(order.id);
     }
     // Online payment here
     if (!isDebt && paymentType === 'online') {
