@@ -36,6 +36,7 @@ const getOrdersOfUser = async (userId) => {
       'products.inventory_item.sku_quantity.sku.width',
       'products.inventory_item.sku_quantity.sku.origin',
       'products.inventory_item.sku_quantity.sku.color',
+      'delivery_method',
     ],
   })
   return processOrdersData(orders);
@@ -64,6 +65,7 @@ const getOrderOfUserById = async (userId, orderId) => {
       'products.inventory_item.sku_quantity.sku.width',
       'products.inventory_item.sku_quantity.sku.origin',
       'products.inventory_item.sku_quantity.sku.color',
+      'delivery_method',
     ],
   })
   return processOrdersData([orderData])[0];

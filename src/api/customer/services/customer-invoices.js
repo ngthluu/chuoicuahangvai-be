@@ -36,6 +36,7 @@ const getInvoiceById = async (invoiceId) => {
       'receive_address.address',
       'receive_address.address.address_three_levels',
       'order_payment_invoices',
+      'delivery_method',
     ],
   })
   return processInvoiceData(invoiceData);
