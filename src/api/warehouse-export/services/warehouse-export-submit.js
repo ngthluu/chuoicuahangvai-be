@@ -44,6 +44,7 @@ module.exports = () => ({
         }
         await updateSubmitStatus(id, userId);
         if (exportData.order) {
+            await strapi.service('api::order.order-utils').updateProducts(exportData.order.id, exportData.products);
             await strapi.service('api::order.order-utils').createOrderStatus(exportData.order.id, 'packaged');
         }
     }

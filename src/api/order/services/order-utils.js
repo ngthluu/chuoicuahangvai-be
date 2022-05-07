@@ -78,5 +78,15 @@ module.exports = () => ({
                 amount: amount,
             }
         });
+    },
+
+    async updateProducts(orderId, products) {
+        const data = {
+            products: products.map((item) => ({
+                inventory_item: item.inventory_item.id,
+                length: item.length,
+            })),
+        }
+        await strapi.entityService.update('api::order.order', orderId, { data: data });
     }
 });
