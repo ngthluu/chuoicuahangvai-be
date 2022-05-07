@@ -115,13 +115,13 @@ module.exports = () => ({
       let data = [];
       for (const inventoryWithSkuItem of inventoriesWithSku) {
         const inventoryWithSkuItemLength = inventoryWithSkuItem.sku_quantity.length;
-        item.length -= inventoryWithSkuItemLength;
-        if (item.length < 0) {
-          data.push({...inventoryWithSkuItem, length: item.length + inventoryWithSkuItemLength});
+        if (inventoryWithSkuItemLength <= 0) continue;
+        if (item.length < inventoryWithSkuItemLength) {
+          data.push({...inventoryWithSkuItem, length: item.length});
           break;
-        } else {
-          data.push({...inventoryWithSkuItem, length: inventoryWithSkuItemLength});
         }
+        data.push({...inventoryWithSkuItem, length: inventoryWithSkuItemLength});
+        item.length -= inventoryWithSkuItemLength;
       }
       return data;
     })
