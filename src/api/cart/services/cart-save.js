@@ -63,7 +63,6 @@ const sendOrderConfirmationMail = async (order) => {
     ORDER_CODE: `ORDER#${order.id}`,
     PAYMENT_METHOD: '',
     CUSTOMER_ADDRESS: orderAddress,
-    CUSTOMER_EMAIL: order.customer.email,
     CUSTOMER_PHONE: orderCustomerPhone,
     PRODUCTS: order.products,
     ORDER_TOTAL: order.products.reduce((sum, _) => {
