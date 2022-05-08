@@ -30,6 +30,7 @@ module.exports = () => ({
                 'receive_address.address.address_three_levels',
                 'delivery_method',
                 'export',
+                'order_payment_vnpay',
             ]
         });
 
@@ -90,6 +91,12 @@ module.exports = () => ({
         const { id } = await strapi.service('api::order-invoice.order-invoice').create({
             data: data
         });
+
+        // For online order only
+        if (orderData.order_payment_vnpay) {
+            await strapi.service('api::order.order-utils').createOrderPaymentInvoiceFromInvoice(id, orderData.order_payment_vnpay.amount);
+        }
+
         return id;
     },
 
