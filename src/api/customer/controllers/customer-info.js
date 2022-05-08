@@ -1,6 +1,8 @@
 'use strict';
 
-const { yup, validateYupSchema } = require('@strapi/utils');
+const utils = require('@strapi/utils');
+const { yup, validateYupSchema } = utils;
+const { ApplicationError } = utils.errors;
 const validateInfoSchema = yup.object().shape({
   firstname: yup.string().required(),
   lastname: yup.string().required(),
@@ -16,7 +18,6 @@ module.exports = {
         where: { id: user.id },
         populate: ['name'],
       });
-    strapi.log.info(JSON.stringify(customer));
     ctx.body = {
       email: customer.email,
       firstname: customer.name.firstname,
@@ -29,6 +30,9 @@ module.exports = {
     await validateYupSchema(validateInfoSchema)(ctx.request.body);
 
     const { user } = ctx.state;
+    if (!user) {
+      throw new ApplicationError('Permission denied');
+    }
     const { firstname, lastname, phone } = ctx.request.body;
 
     const data = {
@@ -40,8 +44,9 @@ module.exports = {
     }
 
     await strapi
-      .query('plugin::users-permissions.user')
-      .update({ where: { id: user.id }, data: data });
+      .plugin('users-permissions')
+      .service('user')
+      .edit(user.id, data);
     
     ctx.body = 'ok';
   },
