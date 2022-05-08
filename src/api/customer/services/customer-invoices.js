@@ -10,7 +10,7 @@ const processInvoiceData = (invoice) => {
   return {
     code: `S-INVOICE#${invoice.id}`,
     order_code: `ORDER#${invoice.order.id}`,
-    paidAmount: invoice.order_payment_invoices.reduce((sum, _) => sum + _.amount, 0),
+    paidAmount: invoice.order_payment_invoices.reduce((sum, _) => sum + parseInt(_.amount), 0),
     ...invoice,
   }
 }

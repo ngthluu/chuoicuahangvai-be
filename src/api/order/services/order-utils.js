@@ -29,6 +29,7 @@ module.exports = () => ({
                 'receive_address.address',
                 'receive_address.address.address_three_levels',
                 'delivery_method',
+                'export',
             ]
         });
 
@@ -73,6 +74,17 @@ module.exports = () => ({
                     is_default: orderData.receive_address.is_default,
                 }
             }
+        }
+        if (orderData.export) {
+            const exportData = await strapi
+                .entityService
+                .findOne('api::warehouse-export.warehouse-export', orderData.export.id, {
+                populate: ['branch', 'products', 'products.inventory_item', 'order'],
+            });
+            data.products = exportData.products.map((_) => ({
+                inventory_item: _.inventory_item.id,
+                length: _.length,
+            }));
         }
 
         const { id } = await strapi.service('api::order-invoice.order-invoice').create({
