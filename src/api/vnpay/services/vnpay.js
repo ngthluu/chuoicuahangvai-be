@@ -139,6 +139,10 @@ async createPaymentUrl(data) {
           }
         })
       }
+    } else {
+      for (const id of orderIds) {
+        await strapi.service('api::order.order-utils').createOrderStatus(id, 'canceled');
+      }
     }
     return '00';
   },
