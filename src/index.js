@@ -27,7 +27,7 @@ module.exports = {
     });
 
     io.on('connection', function(socket) {
-      socket.emit('notification', 'aaa');
+      // socket.emit('notification', 'aaa');
     });
   },
 };
