@@ -236,7 +236,7 @@ module.exports = () => ({
     }
     // Online payment here
     if (!isDebt && paymentType === 'online') {
-      const url = await strapi.service('api::cart.cart-vnpay').createPaymentUrl({
+      const url = await strapi.service('api::vnpay.vnpay').createPaymentUrl({
         request,
         orders: orderIds,
         totalAmount: price + realDeliveryMethod[0].cost,

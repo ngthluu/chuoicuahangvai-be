@@ -70,6 +70,12 @@
       "type": "component",
       "repeatable": false,
       "component": "components.delivery-method"
+    },
+    "order_payment_vnpay": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::order-payment-vnpay.order-payment-vnpay",
+      "inversedBy": "orders"
     }
   }
 }

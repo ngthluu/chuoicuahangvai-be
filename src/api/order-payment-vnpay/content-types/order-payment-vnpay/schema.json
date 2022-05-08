@@ -1,0 +1,27 @@
+{
+  "kind": "collectionType",
+  "collectionName": "order_payment_vnpays",
+  "info": {
+    "singularName": "order-payment-vnpay",
+    "pluralName": "order-payment-vnpays",
+    "displayName": "Order Payment VNPAY"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "transaction_code": {
+      "type": "string"
+    },
+    "amount": {
+      "type": "biginteger"
+    },
+    "orders": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::order.order",
+      "mappedBy": "order_payment_vnpay"
+    }
+  }
+}
