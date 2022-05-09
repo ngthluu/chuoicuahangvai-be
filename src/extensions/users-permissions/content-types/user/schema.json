@@ -69,11 +69,6 @@
       "target": "api::branch.branch",
       "mappedBy": "manager"
     },
-    "address": {
-      "type": "component",
-      "repeatable": false,
-      "component": "components.address"
-    },
     "phone": {
       "type": "string"
     },

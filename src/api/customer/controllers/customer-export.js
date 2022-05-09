@@ -7,26 +7,23 @@ module.exports = {
 
     const data = await strapi
       .service('api::customer.customer')
-      .fetchAll(filters, ['name', 'address', 'address.address_three_levels']);
+      .fetchAll(filters, ['name']);
 
     const headers = {
       id: 'ID',
       name: 'Họ và tên',
       email: 'Email',
       phone: 'Số điện thoại',
-      address: 'Địa chỉ',
       status: 'Trạng thái',
     }
 
     const dataset = data.map((item) => {
-      const address = item.address ? `${item.address.address}, ${item.address.address_three_levels.ward}, ${item.address.address_three_levels.district}, ${item.address.address_three_levels.city}` : '';
       const status = !item.blocked ? 'Đã đăng ký' : 'Vãng lai';
       return {
         id: `#${item.id}`,
         name: item.name ? `${item.name.firstname} ${item.name.lastname}` : '',
         email: item.email,
         phone: item.phone,
-        address: address,
         status: status,
       }
     });
