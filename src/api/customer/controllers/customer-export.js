@@ -52,7 +52,7 @@ module.exports = {
 
     const dataset = data.map((item) => {
       const debt_amount = item.orders.reduce((prev, cur) => {
-        if (!cur.order_invoice) return 0
+        if (!cur.order_invoice) return prev;
         return (
           prev +
           cur.order_invoice.price -

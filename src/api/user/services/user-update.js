@@ -16,7 +16,7 @@ const where = {
 module.exports = () => ({
     async update(id, data) {
         await strapi.entityService.update('plugin::users-permissions.user', id, {
-            data: data
+            data: { ...data, provider: 'local' }
         });
     },
 });
