@@ -123,7 +123,6 @@ const permissionMap = {
 module.exports = () => ({
   async checkPermission(ctx, moduleName, functionName) {
     const { user } = ctx.state;
-    strapi.log.info(JSON.stringify([moduleName, functionName]));
     if (!user) return false;
     if (!permissionMap[user.role.name].hasOwnProperty(moduleName)) {
       return false;
