@@ -96,12 +96,7 @@ const permissionMap = {
 }
 
 module.exports = () => ({
-  async checkPermission(ctx, moduleName, functionName) {
-    const { user } = ctx.state;
-    if (!user) return false;
-    if (!permissionMap[user.role.name].hasOwnProperty(moduleName)) {
-      return false;
-    }
-    return permissionMap[user.role.name][moduleName].includes(functionName);
-  }
+  async getPermissionMap(roleName) {
+    return permissionMap[roleName];
+  },
 });
