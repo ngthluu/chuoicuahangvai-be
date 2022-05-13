@@ -66,7 +66,7 @@ const sendOrderConfirmationMail = async (order) => {
     CUSTOMER_PHONE: orderCustomerPhone,
     PRODUCTS: order.products,
     ORDER_TOTAL: order.products.reduce((sum, _) => {
-      return sum + 0.01 * _.length * _.inventory_item.sku_quantity.sku.price
+      return sum + 0.01 * _.length * _.unit_price
     }, 0),
     DELIVERY_COST: order.delivery_method.amount,
   });
@@ -140,11 +140,13 @@ module.exports = () => ({
     return Object
     .entries(groupBy(chooseItems, (item) => item.branch.id))
     .map(([branchId, inventoryItems]) => {
+      strapi.log.info(JSON.stringify(inventoryItems));
       return {
         branch: branchId,
         products: inventoryItems.map((item) => {
           return {
             inventory_item: item.id,
+            unit_price: item.sku_quantity.sku.price,
             length: item.length,
           }
         }),
@@ -234,6 +236,10 @@ module.exports = () => ({
       await sendOrderConfirmationMail(order);
       orderIds.push(order.id);
     }
+    if (orderIds.length == 0) {
+      throw new ApplicationError('Cant create order');
+    }
+
     // Online payment here
     if (!isDebt && paymentType === 'online') {
       const url = await strapi.service('api::vnpay.vnpay').createPaymentUrl({

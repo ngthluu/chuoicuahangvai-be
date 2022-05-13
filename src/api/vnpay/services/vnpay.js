@@ -110,7 +110,7 @@ async createPaymentUrl(data) {
     const totalAmount = ordersList
       .map((item) => 
         item.products.reduce(
-          (sum, _) => sum + 0.01 * _.length * _.inventory_item.sku_quantity.sku.price
+          (sum, _) => sum + 0.01 * _.length * _.unit_price
           , item.delivery_method ? parseInt(item.delivery_method.amount) : 0
         )
       ).reduce((sum, _) => sum + parseInt(_), 0);

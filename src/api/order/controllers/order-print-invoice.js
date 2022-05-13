@@ -30,7 +30,7 @@ module.exports = {
       customer_phone: invoice.customer_phone,
       receive_address: invoice.receive_address,
       products: invoice.products.map((item, index) => {
-        const price = parseInt(item.inventory_item.sku_quantity.sku.price);
+        const price = parseInt(item.unit_price);
         const length = parseInt(item.length);
         const sku = item.inventory_item.sku_quantity.sku;
         let descriptions = [];
@@ -51,7 +51,7 @@ module.exports = {
         };
       }),
       orderAmount: invoice.products.reduce((sum, item) => {
-        const price = parseInt(item.inventory_item.sku_quantity.sku.price);
+        const price = parseInt(item.unit_price);
         const length = parseInt(item.length);
         return sum + price * length * 0.01;
       }, 0).toLocaleString(),

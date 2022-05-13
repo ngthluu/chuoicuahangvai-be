@@ -44,9 +44,10 @@ module.exports = () => ({
             products: orderData.products.map((item) => ({ 
                 inventory_item: item.inventory_item.id,
                 length: item.length,
+                unit_price: item.unit_price,
             })),
             price: orderData.products.reduce(
-                (prev, item) => prev + 0.01 * item.length * item.inventory_item.sku_quantity.sku.price, 
+                (prev, item) => prev + 0.01 * item.length * item.unit_price, 
                 orderData.delivery_method ? parseInt(orderData.delivery_method.amount) : 0),
             delivery_method: {}
         }
@@ -84,6 +85,7 @@ module.exports = () => ({
             });
             data.products = exportData.products.map((_) => ({
                 inventory_item: _.inventory_item.id,
+                unit_price: _.unit_price,
                 length: _.length,
             }));
         }

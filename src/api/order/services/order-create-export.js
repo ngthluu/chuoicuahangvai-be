@@ -10,6 +10,7 @@ module.exports = () => ({
         order: order.id,
         products: order.products.map((item) => ({
           inventory_item: item.inventory_item.id,
+          unit_price: item.unit_price,
           length: item.length,
         })),
         branch: order.branch.id,

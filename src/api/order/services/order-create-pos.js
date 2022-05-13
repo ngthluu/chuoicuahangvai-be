@@ -29,7 +29,7 @@ module.exports = () => ({
 
         // Create order
         const orderCost = exportData.products.reduce((sum, _) => {
-            return sum + parseInt(_.inventory_item.sku_quantity.sku.price) * parseInt(_.length) * 0.01;
+            return sum + parseInt(_.unit_price) * parseInt(_.length) * 0.01;
         }, 0);
         const orderData = await strapi.service('api::order.order').create({
             data: {

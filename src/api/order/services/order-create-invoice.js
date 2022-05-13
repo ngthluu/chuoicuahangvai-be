@@ -53,7 +53,7 @@ const sendOrderIsDeliveringMail = async (id) => {
     CUSTOMER_PHONE: orderCustomerPhone,
     PRODUCTS: order.products,
     ORDER_TOTAL: order.products.reduce((sum, _) => {
-      return sum + 0.01 * _.length * _.inventory_item.sku_quantity.sku.price
+      return sum + 0.01 * _.length * _.unit_price
     }, 0),
     DELIVERY_COST: order.delivery_method.amount,
   });

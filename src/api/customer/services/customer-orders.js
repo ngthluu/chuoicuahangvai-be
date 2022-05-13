@@ -7,7 +7,7 @@ const processOrdersData = (orders) => {
     return {
       code: `ORDER#${item.id}`,
       orderAmount: item.products.reduce(
-        (sum, _) => sum + parseInt(_.inventory_item.sku_quantity.sku.price) * parseInt(_.length) * 0.01, 
+        (sum, _) => sum + parseInt(_.unit_price) * parseInt(_.length) * 0.01, 
       item.delivery_method ? parseInt(item.delivery_method.amount) : 0),
       invoiceAmount: item.order_invoice ? item.order_invoice.price : 0,
       ...item,
