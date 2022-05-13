@@ -65,7 +65,10 @@ module.exports = {
       ctx.send({
         jwt: strapi.plugin('users-permissions').service('jwt').issue({
           id: user.id,
-          role: user.role.name,
+          role: {
+            id: user.role.id,
+            name: user.role.name,
+          },
           permission_map: await strapi.service('api::permission.permission').getPermissionMap(user.role.name),
         }),
         user: await sanitizeUser(user, ctx),
