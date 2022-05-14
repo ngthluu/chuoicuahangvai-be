@@ -3,5 +3,6 @@ WORKDIR /chuoicuahangvai-be
 COPY . .
 RUN yarn install
 RUN yarn build NODE_ENV=production
+RUN npm install -g pm2
+CMD ["pm2", "start", "ecosystems.config.js"]
 
-CMD ["yarn", "start", "NODE_ENV=production"]
