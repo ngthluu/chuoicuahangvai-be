@@ -96,6 +96,26 @@ const permissionMap = {
     'warehouseExport': ['home', 'add', 'edit', 'submit', 'delete'],
     'warehouseCatalogue': ['home', 'add', 'edit', 'submit', 'delete'],
   },
+  'Warehouses User': {
+    'warehouseInventory': ['home', 'export_excel'],
+    'warehouseImport': ['home', 'add', 'edit', 'submit', 'delete'],
+    'warehouseExport': ['home', 'add', 'edit', 'submit', 'delete'],
+    'warehouseCatalogue': ['home', 'add', 'edit', 'submit', 'delete'],
+  },
+  'Accountant': {
+    'order': [
+      'home',
+      'view',
+      'view_invoice',
+      'export_excel',
+      'export_pdf_invoice',
+    ],
+    'refund': ['home', 'view', 'view_invoice', 'export_excel', 'export_pdf_invoice'],
+    'customerDebt': ['export_excel'],
+    'statisticsRevenue': ['home', 'export_excel'],
+    'statisticsSoldvolume': ['home', 'export_excel'],
+    'statisticsCustomer': ['home', 'export_excel'],
+  },
 }
 
 module.exports = () => ({
