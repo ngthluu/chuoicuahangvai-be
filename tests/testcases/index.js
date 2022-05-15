@@ -2,8 +2,8 @@ const request = require('supertest');
 
 it('should login user and return jwt token', async () => {
   const mockUserData = {
-    username: 'tester',
-    email: 'tester@strapi.com',
+    username: 'testeraaaaa',
+    email: 'testeaaar@strapi.com',
     provider: 'local',
     password: '1234abc',
     confirmed: true,

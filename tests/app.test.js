@@ -1,6 +1,8 @@
 const fs = require('fs');
 const { setupStrapi } = require('./helpers/strapi');
 
+jest.setTimeout(30000);
+
 beforeAll(async () => {
   await setupStrapi();
 });
@@ -8,7 +10,7 @@ beforeAll(async () => {
 afterAll(async () => {
   const dbSettings = strapi.config.get('database.connection.connection');
   
-  await strapi.server.destroy();
+  await strapi.destroy();
 
   if (dbSettings && dbSettings.filename) {
     const tmpDbFile = `${dbSettings.filename}`;
