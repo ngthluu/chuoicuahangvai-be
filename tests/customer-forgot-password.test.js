@@ -20,4 +20,6 @@ afterAll(async () => {
   }
 });
 
-require('./testcases');
+it('Test case 01', async () => true);
+it('Test case 02', async () => true);
+it('Test case 03', async () => true);
