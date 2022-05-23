@@ -16,12 +16,14 @@ module.exports = () => ({
                 debt: debt,
             }
         });
+        strapi.log.info(JSON.stringify(customerOrders));
         let debtPayAmount = parseInt(data.amount);
         for (let order of customerOrders) {
             order.paid = (order.debt - debtPayAmount) >= 0 ? debtPayAmount : order.debt;
             debtPayAmount -= order.debt;
             if (debtPayAmount <= 0) break;
         }
+        strapi.log.info(JSON.stringify(customerOrders));
         for (let order of customerOrders) {
             if (!order.hasOwnProperty('paid')) continue;
             await strapi.entityService.create('api::order-payment-invoice.order-payment-invoice', {
