@@ -2,6 +2,7 @@
 
 module.exports = () => ({
     async updateDebt(id, data) {
+        strapi.log.info(JSON.stringify([id, data]));
         let customerOrders = await strapi.entityService.findMany('api::order.order', {
             filters: { customer: { id: { $eq: id } } },
             populate: ['order_invoice', 'order_invoice.order_payment_invoices']
