@@ -11,7 +11,9 @@ const validateSchema = yup.object().shape({
       length: yup.number().required(),
     })
   ),
-  voucher: yup.string(),
+  voucher: yup.object().shape({
+    code: yup.string().required(),
+  }),
   note: yup.string(),
   isDebt: yup.boolean(),
 });
@@ -20,7 +22,7 @@ module.exports = () => ({
   async process(user, data) {
     await validateYupSchema(validateSchema)(data);
     
-    let { note, isDebt } = data;
+    let { note, isDebt, voucher } = data;
     if (isDebt && !user) {
       throw new ApplicationError('Cant checkout a debt order for anonymous user');
     }
@@ -34,7 +36,14 @@ module.exports = () => ({
 
     if (user) {
       const receiveAddress = await strapi.service('api::customer.customer-receive-address').getReceiveAddressList(user.id);
-      returnData = { ...returnData, receiveAddress, email: user.email }
+      returnData = { ...returnData, receiveAddress, email: user.email };
+
+      const voucherData = await strapi
+        .service('api::voucher.voucher')
+        .getAvailableVoucherByCode(voucher.code, user.id, cartData.price);
+      if (voucherData) {
+        returnData = { ...returnData, voucher: voucherData };
+      }
     }
 
     return returnData;

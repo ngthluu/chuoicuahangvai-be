@@ -13,6 +13,9 @@ const validateSchema = yup.object().shape({
       length: yup.number().required(),
     })
   ),
+  voucher: yup.object().shape({
+    code: yup.string().required(),
+  }),
   note: yup.string(),
   isDebt: yup.boolean().required(),
   deliveryInfo: yup.object().required().shape({
@@ -160,7 +163,7 @@ module.exports = () => ({
 
     await validateYupSchema(validateSchema)(data);
     
-    let { note, isDebt, deliveryInfo, deliveryMethod, paymentType } = data;
+    let { note, isDebt, voucher, deliveryInfo, deliveryMethod, paymentType } = data;
     if (isDebt && !user) {
       throw new ApplicationError('Cant checkout a debt order for anonymous user');
     }
