@@ -7,6 +7,7 @@ module.exports = () => ({
             filters: { customer: { id: { $eq: id } } },
             populate: ['order_invoice', 'order_invoice.order_payment_invoices']
         });
+        strapi.log.info(JSON.stringify(customerOrders));
         customerOrders = customerOrders.map((order) => {
             const orderInvoice = order.order_invoice;
             const total = orderInvoice.price;
