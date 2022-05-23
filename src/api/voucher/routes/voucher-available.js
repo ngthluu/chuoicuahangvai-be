@@ -1,7 +1,7 @@
 module.exports = {
     routes: [
       {
-       method: 'GET',
+       method: 'POST',
        path: '/vouchers-available',
        handler: 'voucher.getAvailableVouchers',
        config: {
