@@ -11,6 +11,7 @@ const validateSchema = yup.object().shape({
       length: yup.number().required(),
     })
   ),
+  voucher: yup.string(),
   note: yup.string(),
   isDebt: yup.boolean(),
 });
