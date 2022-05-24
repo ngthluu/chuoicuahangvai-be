@@ -63,7 +63,7 @@ module.exports = () => ({
       deliveryMethods: deliveryMethods,
     }
 
-    if (user) {
+    if (user && voucher) {
       const voucherData = await strapi
         .service('api::voucher.voucher')
         .getAvailableVoucherByCode(voucher.code, user.id, cartData.price);

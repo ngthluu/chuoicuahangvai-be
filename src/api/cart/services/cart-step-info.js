@@ -38,11 +38,13 @@ module.exports = () => ({
       const receiveAddress = await strapi.service('api::customer.customer-receive-address').getReceiveAddressList(user.id);
       returnData = { ...returnData, receiveAddress, email: user.email };
 
-      const voucherData = await strapi
-        .service('api::voucher.voucher')
-        .getAvailableVoucherByCode(voucher.code, user.id, cartData.price);
-      if (voucherData) {
-        returnData = { ...returnData, voucher: voucherData };
+      if (voucher) {
+        const voucherData = await strapi
+          .service('api::voucher.voucher')
+          .getAvailableVoucherByCode(voucher.code, user.id, cartData.price);
+        if (voucherData) {
+          returnData = { ...returnData, voucher: voucherData };
+        }
       }
     }
 

@@ -210,7 +210,7 @@ module.exports = () => ({
 
     // Voucher
     let voucherData = null;
-    if (user) {
+    if (user && voucher) {
       voucherData = await strapi
         .service('api::voucher.voucher')
         .getAvailableVoucherByCode(voucher.code, user.id, price);
