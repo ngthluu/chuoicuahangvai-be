@@ -46,11 +46,9 @@ module.exports = () => ({
                 length: item.length,
                 unit_price: item.unit_price,
             })),
-            price: orderData.products.reduce(
-                (prev, item) => prev + 0.01 * item.length * item.unit_price, 
-                orderData.delivery_method ? parseInt(orderData.delivery_method.amount) : 0),
             delivery_method: {}
         }
+        let invoiceTotalPrice = orderData.products.reduce((sum, _) => sum + 0.01 * _.length * _.unit_price);
         if (orderData.delivery_method) {
             data = {
                 ...data, 
@@ -59,7 +57,14 @@ module.exports = () => ({
                     method: orderData.delivery_method.method,
                 },
             }
+            invoiceTotalPrice += parseInt(orderData.delivery_method.amount);
         }
+        if (orderData.discount_value > 0) {
+            data = { ...data, discount_value: orderData.discount_value };
+            invoiceTotalPrice -= parseInt(orderData.discount_value);
+        }
+        data = { ...data, price: invoiceTotalPrice }
+
         if (orderData.receive_address) {
             data = {
                 ...data,
