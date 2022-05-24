@@ -49,6 +49,10 @@
       "type": "component",
       "repeatable": false,
       "component": "components.delivery-method"
+    },
+    "discount_value": {
+      "type": "biginteger",
+      "default": "0"
     }
   }
 }

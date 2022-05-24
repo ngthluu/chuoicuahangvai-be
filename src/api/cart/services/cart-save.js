@@ -143,7 +143,6 @@ module.exports = () => ({
     return Object
     .entries(groupBy(chooseItems, (item) => item.branch.id))
     .map(([branchId, inventoryItems]) => {
-      strapi.log.info(JSON.stringify(inventoryItems));
       return {
         branch: branchId,
         products: inventoryItems.map((item) => {
@@ -209,9 +208,24 @@ module.exports = () => ({
         orderData =  {...orderData, customer: customerData.id  };
     }
 
+    // Voucher
+    let voucherData = null;
+    if (user) {
+      voucherData = await strapi
+        .service('api::voucher.voucher')
+        .getAvailableVoucherByCode(voucher.code, user.id, price);
+    }
+
     const items = await this.getSuitableInventoryItems(skus);
     let orderIds = [];
     for (const item of items) {
+      // Append voucher
+      const subOrderAmount = item.products.reduce((sum, _) => sum + _.unit_price * _.length * 0.01, 0);
+      if (voucherData && voucherData.amount > 0) {
+        const discount_value = voucherData.amount > subOrderAmount ? subOrderAmount : voucherData.amount;
+        orderData = { ...orderData, discount_value }
+        voucherData.amount -= subOrderAmount;
+      }
       const order = await strapi.service('api::order.order').create({
         data: { ...orderData, ...item },
         populate: [
@@ -241,6 +255,13 @@ module.exports = () => ({
     }
     if (orderIds.length == 0) {
       throw new ApplicationError('Cant create order');
+    }
+
+    // Mark used voucher
+    if (voucherData) {
+      await strapi.entityService.create('api::voucher-use.voucher-use', {
+        data: { voucher: voucherData.id, customer: user.id }
+      })
     }
 
     // Online payment here

@@ -32,6 +32,7 @@ const getVoucherInfo = (voucher, orderAmount) => {
   if (voucher.type === 'percent') {
     const percent = parseInt(voucher.type_value.percent);
     return {
+      id: voucher.id,
       code: voucher.code,
       description: `Giảm giá ${percent}% đơn hàng`,
       amount: orderAmount * percent * 0.01,
@@ -40,6 +41,7 @@ const getVoucherInfo = (voucher, orderAmount) => {
     const percent = parseInt(voucher.type_value.percent);
     const limit = parseInt(voucher.type_value.limit);
     return {
+      id: voucher.id,
       code: voucher.code,
       description: `Giảm giá ${percent}% đơn hàng, không vượt quá ${limit.toLocaleString()} VND`,
       amount: orderAmount * parseInt(percent) * 0.01 <= limit ? orderAmount * parseInt(percent) * 0.01 : limit,
@@ -47,6 +49,7 @@ const getVoucherInfo = (voucher, orderAmount) => {
   } else if (voucher.type === 'amount') {
     const amount = parseInt(voucher.type_value.value);
     return {
+      id: voucher.id,
       code: voucher.code,
       description: `Giảm giá ${amount.toLocaleString()} VND`,
       amount: orderAmount <= amount ? orderAmount : amount,
