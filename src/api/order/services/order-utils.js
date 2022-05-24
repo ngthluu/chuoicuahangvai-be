@@ -48,7 +48,7 @@ module.exports = () => ({
             })),
             delivery_method: {}
         }
-        let invoiceTotalPrice = orderData.products.reduce((sum, _) => sum + 0.01 * _.length * _.unit_price);
+        let invoiceTotalPrice = orderData.products.reduce((sum, _) => sum + 0.01 * _.length * _.unit_price, 0);
         if (orderData.delivery_method) {
             data = {
                 ...data, 
