@@ -59,7 +59,7 @@ module.exports = () => ({
             }
             invoiceTotalPrice += parseInt(orderData.delivery_method.amount);
         }
-        if (orderData.discount_value > 0) {
+        if (orderData.discount_value) {
             data = { ...data, discount_value: orderData.discount_value };
             invoiceTotalPrice -= parseInt(orderData.discount_value);
         }
