@@ -264,12 +264,15 @@ module.exports = () => ({
       })
     }
 
+    let totalAmount = price + realDeliveryMethod[0].cost;
+    if (voucherData) totalAmount += parseInt(voucherData.amount);
+
     // Online payment here
-    if (!isDebt && paymentType === 'online') {
+    if (!isDebt && paymentType === 'online' && totalAmount > 0) {
       const url = await strapi.service('api::vnpay.vnpay').createPaymentUrl({
         request,
         orders: orderIds,
-        totalAmount: price + realDeliveryMethod[0].cost,
+        totalAmount: totalAmount,
       });
       return { status: 'ok', url: url };
     }
