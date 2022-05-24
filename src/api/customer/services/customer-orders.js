@@ -4,11 +4,12 @@ const processOrdersData = (orders) => {
   return orders.filter((item) => {
     return item.type != "pos";
   }).map((item) => {
+    let orderAmount = item.products.reduce((sum, _) => sum + parseInt(_.unit_price) * parseInt(_.length) * 0.01, 0);
+    if (item.delivery_method) orderAmount += parseInt(item.delivery_method.amount);
+    if (item.discount_value) orderAmount -= parseInt(item.discount_value);
     return {
       code: `ORDER#${item.id}`,
-      orderAmount: item.products.reduce(
-        (sum, _) => sum + parseInt(_.unit_price) * parseInt(_.length) * 0.01, 
-      item.delivery_method ? parseInt(item.delivery_method.amount) : 0),
+      orderAmount: orderAmount,
       invoiceAmount: item.order_invoice ? item.order_invoice.price : 0,
       ...item,
     }
