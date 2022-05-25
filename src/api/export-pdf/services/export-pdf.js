@@ -23,7 +23,9 @@ module.exports = () => ({
     };
     
     try {
+      strapi.log.info(JSON.stringify("not done here"));
       const pdfBuffer = await pdf.create(document, options);
+      strapi.log.info(JSON.stringify("done here"));
       ctx.attachment('output.pdf');
       ctx.send(pdfBuffer);
     } catch (err) {
