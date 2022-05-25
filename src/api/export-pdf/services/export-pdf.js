@@ -19,15 +19,21 @@ module.exports = () => ({
     const document = {
       html: html,
       data: data,
-      path: "./output.pdf",
       type: "buffer",
     };
     await (new Promise((resolve, reject) => {
-      pdf.create(document, options).then((pdfBuffer) => {
-        ctx.attachment('output.pdf');
-        ctx.send(pdfBuffer);
-        resolve(true);
-      });
+      pdf
+        .create(document, options)
+        .then((pdfBuffer) => {
+          ctx.attachment('output.pdf');
+          ctx.send(pdfBuffer);
+          resolve(true);
+        })
+        .catch((error) => {
+          strapi.log.info(JSON.stringify(error));
+          reject(true);
+        })
+        ;
     }));
   }
 });
