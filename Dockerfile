@@ -1,4 +1,5 @@
 FROM node:16.13.1
+ENV OPENSSL_CONF=/dev/null
 WORKDIR /chuoicuahangvai-be
 COPY . .
 RUN yarn install
