@@ -21,6 +21,7 @@ module.exports = () => ({
       html: html,
       data: data,
       type: "buffer",
+      path: "./output.pdf",
     };
     await (new Promise((resolve, reject) => {
       pdf
