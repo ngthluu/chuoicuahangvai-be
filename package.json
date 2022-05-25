@@ -21,6 +21,7 @@
     "node-excel-export": "^1.4.4",
     "pdf-creator-node": "^2.3.4",
     "pg": "8.6.0",
+    "phantomjs-prebuilt": "^2.1.16",
     "qs": "^6.10.3",
     "socket.io": "^4.5.0"
   },
