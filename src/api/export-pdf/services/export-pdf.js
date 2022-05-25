@@ -11,7 +11,6 @@ module.exports = () => ({
     const html = fs.readFileSync(templateFileName, "utf8");
 
     const options = {
-      phantomPath: "./node_modules/phantomjs-prebuilt/bin/phantomjs",
       format: "A4",
       orientation: "portrait",
       border: "10mm",
