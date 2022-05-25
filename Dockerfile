@@ -1,7 +1,6 @@
 FROM node:16.13.1-alpine
 WORKDIR /chuoicuahangvai-be
-COPY . /chuoicuahangvai-be
-COPY ./public/uploads /chuoicuahangvai-be/public/uploads
+COPY . .
 RUN yarn install
 RUN NODE_ENV=production yarn build
 RUN npm install -g pm2
