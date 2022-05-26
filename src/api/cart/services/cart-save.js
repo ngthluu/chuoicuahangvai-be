@@ -210,10 +210,12 @@ module.exports = () => ({
 
     // Voucher
     let voucherData = null;
+    let voucherDataAmount = null;
     if (user && voucher) {
       voucherData = await strapi
         .service('api::voucher.voucher')
         .getAvailableVoucherByCode(voucher.code, user.id, price);
+      voucherDataAmount = voucherData.amount;
     }
 
     const items = await this.getSuitableInventoryItems(skus);
@@ -265,7 +267,7 @@ module.exports = () => ({
     }
 
     let totalAmount = price + realDeliveryMethod[0].cost;
-    if (voucherData) totalAmount += parseInt(voucherData.amount);
+    if (voucherData && voucherDataAmount) totalAmount -= parseInt(voucherDataAmount);
 
     // Online payment here
     if (!isDebt && paymentType === 'online' && totalAmount > 0) {
