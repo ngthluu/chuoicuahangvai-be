@@ -44,13 +44,6 @@ const permissionMap = {
     'warehouseImport': ['home', 'add', 'edit', 'submit', 'delete'],
     'warehouseExport': ['home', 'add', 'edit', 'submit', 'delete'],
     'warehouseCatalogue': ['home', 'add', 'edit', 'submit', 'delete'],
-    'productCategory': ['home', 'add', 'edit', 'delete'],
-    'productColor': ['home', 'add', 'edit', 'delete'],
-    'productPattern': ['home', 'add', 'edit', 'delete'],
-    'productWidth': ['home', 'add', 'edit', 'delete'],
-    'productStretch': ['home', 'add', 'edit', 'delete'],
-    'productOrigin': ['home', 'add', 'edit', 'delete'],
-    'product': ['home', 'add', 'edit', 'delete'],
     'order': [
       'home',
       'view',
