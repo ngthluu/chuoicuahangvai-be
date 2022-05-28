@@ -49,13 +49,17 @@
                         <td align="left" colspan="3"><strong>Phí vận chuyển</strong></td>
                         <td align="right"><%= parseInt(DELIVERY_COST).toLocaleString() %> đ</td>
                     </tr>
+                    <tr style="color:#666; font-size:13px">
+                        <td align="left" colspan="3"><strong>Giảm giá</strong></td>
+                        <td align="right"><%= parseInt(DISCOUNT_AMOUNT).toLocaleString() %> đ</td>
+                    </tr>
                     <tr>
                         <td colspan="4" style="background:#F1F1F1; height:1px; padding:0px"></td>
                     </tr>
                     <tr style="background:#464c55; color:#fff; font-size:13px">
                         <td align="left" colspan="3"><strong>Tổng thành tiền</strong></td>
                         <td align="right">
-                            <strong><%= (parseInt(ORDER_TOTAL) + parseInt(DELIVERY_COST)).toLocaleString() %> đ</strong>
+                            <strong><%= (parseInt(ORDER_TOTAL) + parseInt(DELIVERY_COST) - parseInt(DISCOUNT_AMOUNT)).toLocaleString() %> đ</strong>
                         </td>
                     </tr>
                 </table>
