@@ -6,7 +6,7 @@ module.exports = {
         handler: 'user-create.create',
         config: {
           policies: [],
-          middlewares: ['global::auth-branch-body'],
+          middlewares: [],
         },
       },
     ],

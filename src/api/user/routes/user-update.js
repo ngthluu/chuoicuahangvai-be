@@ -6,7 +6,7 @@ module.exports = {
         handler: 'user-update.update',
         config: {
           policies: [],
-          middlewares: ['global::auth-branch-body'],
+          middlewares: [],
         },
       },
     ],
