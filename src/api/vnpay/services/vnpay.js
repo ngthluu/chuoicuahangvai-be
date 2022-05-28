@@ -107,13 +107,14 @@ async createPaymentUrl(data) {
 
     // Check total cost
     const vnp_Amount = parseInt(data['vnp_Amount']) / 100;
-    const totalAmount = ordersList
-      .map((item) => 
-        item.products.reduce(
-          (sum, _) => sum + 0.01 * _.length * _.unit_price
-          , item.delivery_method ? parseInt(item.delivery_method.amount) : 0
-        )
-      ).reduce((sum, _) => sum + parseInt(_), 0);
+    let totalAmount = ordersList
+      .map((item) => {
+        let subOrderTotalAmount = item.products.reduce((sum, _) => sum + 0.01 * _.length * _.unit_price, 0);
+        subOrderTotalAmount += item.delivery_method ? parseInt(item.delivery_method.amount) : 0;
+        subOrderTotalAmount -= item.discount_value ? parseInt(item.discount_value) : 0;
+        return subOrderTotalAmount;
+      }).reduce((sum, _) => sum + parseInt(_), 0);
+
     if (totalAmount !== vnp_Amount) return '04';
 
     // Check paid yet

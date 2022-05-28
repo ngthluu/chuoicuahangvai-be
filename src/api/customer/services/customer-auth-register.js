@@ -47,7 +47,7 @@ const sendConfirmationEmail = async (user) => {
     USER: sanitizedUserInfo
   });
   const message = _.template(messageTemplate)({
-    URL: 'http://localhost:3000/register-confirmation',
+    URL: 'http://localhost/register-confirmation',
     USER: sanitizedUserInfo,
     CODE: confirmationToken,
   });

@@ -46,7 +46,7 @@ module.exports = () => ({
 
     const subject = _.template(subjectTemplate)({});
     const message = _.template(messageTemplate)({
-      URL: 'http://localhost:3000/reset-password',
+      URL: 'http://localhost/reset-password',
       TOKEN: resetPasswordToken,
     });
 
