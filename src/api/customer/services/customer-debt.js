@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = () => ({
-    async updateDebt(id, data) {
+    async updateDebt(id, data, user) {
         let customerOrders = await strapi.entityService.findMany('api::order.order', {
             filters: { customer: { id: { $eq: id } } },
             populate: ['order_invoice', 'order_invoice.order_payment_invoices']
@@ -26,12 +26,11 @@ module.exports = () => ({
         }
         for (let order of customerOrders) {
             if (!order.hasOwnProperty('paid')) continue;
-            await strapi.entityService.create('api::order-payment-invoice.order-payment-invoice', {
-                data: {
-                    order_invoice: order.invoiceId,
-                    amount: order.paid,
-                },
-            });
+            await strapi.service('api::order.order-utils').createOrderPaymentInvoiceFromInvoice(
+                order.invoiceId,
+                order.paid,
+                user.id
+            );
         }
     }
 });

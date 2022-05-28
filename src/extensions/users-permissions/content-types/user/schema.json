@@ -116,6 +116,12 @@
       "relation": "oneToMany",
       "target": "api::user-leave.user-leave",
       "mappedBy": "user"
+    },
+    "order_payment_invoices": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::order-payment-invoice.order-payment-invoice",
+      "mappedBy": "update_user"
     }
   }
 }

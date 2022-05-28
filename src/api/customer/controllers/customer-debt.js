@@ -9,7 +9,8 @@ module.exports = {
     try {
       const { id } = ctx.params;
       const { data } = ctx.request.body;
-      await strapi.service('api::customer.customer-debt').updateDebt(id, data); 
+      const { user } = ctx.state;
+      await strapi.service('api::customer.customer-debt').updateDebt(id, data, user); 
       ctx.body = 'ok';
     } catch (err) {
       ctx.body = err;

@@ -107,12 +107,11 @@ module.exports = () => ({
         return id;
     },
 
-    async createOrderPaymentInvoiceFromInvoice(invoiceId, amount) {
+    async createOrderPaymentInvoiceFromInvoice(invoiceId, amount, userId=null) {
+        let data = { order_invoice: invoiceId, amount: amount };
+        if (userId) data = {...data, update_user: userId}
         await strapi.service('api::order-payment-invoice.order-payment-invoice').create({
-            data: {
-                order_invoice: invoiceId,
-                amount: amount,
-            }
+            data: data
         });
     },
 

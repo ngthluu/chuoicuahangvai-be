@@ -4,7 +4,8 @@
   "info": {
     "singularName": "order-payment-invoice",
     "pluralName": "order-payment-invoices",
-    "displayName": "Order Payment Invoice"
+    "displayName": "Order Payment Invoice",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
@@ -19,6 +20,12 @@
     },
     "amount": {
       "type": "biginteger"
+    },
+    "update_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "order_payment_invoices"
     }
   }
 }

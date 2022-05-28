@@ -48,6 +48,6 @@ module.exports = () => ({
         const invoiceId = await strapi.service('api::order.order-utils').createOrderInvoiceFromOrder(orderData.id);
 
         // Create order payment invoice
-        await strapi.service('api::order.order-utils').createOrderPaymentInvoiceFromInvoice(invoiceId, data.paymentCost);
+        await strapi.service('api::order.order-utils').createOrderPaymentInvoiceFromInvoice(invoiceId, data.paymentCost, user.id);
     }
 });
