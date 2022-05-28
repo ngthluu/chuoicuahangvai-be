@@ -42,7 +42,7 @@ module.exports = () => ({
         });
 
         // Create order status
-        await strapi.service('api::order.order-utils').createOrderStatus(orderData.id, 'success');
+        await strapi.service('api::order.order-utils').createOrderStatus(orderData.id, 'success', user.id);
 
         // Create order invoice
         const invoiceId = await strapi.service('api::order.order-utils').createOrderInvoiceFromOrder(orderData.id);

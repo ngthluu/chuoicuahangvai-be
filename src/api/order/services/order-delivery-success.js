@@ -72,12 +72,12 @@ const sendOrderDeliveriedMail = async (id) => {
 }
 
 module.exports = () => ({
-  async deliverySuccess(id) {
+  async deliverySuccess(id, userId) {
     const statuses = await strapi.entityService.findMany('api::order-status.order-status', {
       filters: { order: id, status: 'success' },
     });
     if (statuses.length == 0) {
-      await strapi.service('api::order.order-utils').createOrderStatus(id, 'success');
+      await strapi.service('api::order.order-utils').createOrderStatus(id, 'success', userId);
       await sendOrderDeliveriedMail(id);
     }
   }

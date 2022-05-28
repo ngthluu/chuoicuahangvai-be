@@ -16,6 +16,6 @@ module.exports = () => ({
         branch: order.branch.id,
       }
     });
-    await strapi.service('api::order.order-utils').createOrderStatus(id, 'confirmed');
+    await strapi.service('api::order.order-utils').createOrderStatus(id, 'confirmed', user.id);
   }
 });

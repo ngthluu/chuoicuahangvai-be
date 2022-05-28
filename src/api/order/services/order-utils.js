@@ -6,12 +6,11 @@
 
 module.exports = () => ({
 
-    async createOrderStatus(orderId, status) {
+    async createOrderStatus(orderId, status, userId=null) {
+        let data = { order: orderId, status: status };
+        if (userId) data = { ...data, update_user: userId };
         await strapi.service('api::order-status.order-status').create({
-            data: {
-                order: orderId,
-                status: status,
-            }
+            data: data
         });
     },
 

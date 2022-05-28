@@ -4,7 +4,8 @@
   "info": {
     "singularName": "order-status",
     "pluralName": "order-statuses",
-    "displayName": "Order Status"
+    "displayName": "Order Status",
+    "description": ""
   },
   "options": {
     "draftAndPublish": false
@@ -28,6 +29,11 @@
       "relation": "manyToOne",
       "target": "api::order.order",
       "inversedBy": "order_statuses"
+    },
+    "update_user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
     }
   }
 }
