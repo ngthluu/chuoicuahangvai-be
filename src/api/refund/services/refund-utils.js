@@ -15,6 +15,9 @@ module.exports = () => ({
                 update_time: (new Date()).toISOString(),
             }
         });
+        await strapi.service('api::refund.refund').update(refundId, {
+            data: { current_status: status }
+        })
     },
 
     async createInvoiceFromRefund(refund) {

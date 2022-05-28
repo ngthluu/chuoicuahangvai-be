@@ -80,6 +80,9 @@
     "discount_value": {
       "type": "biginteger",
       "default": "0"
+    },
+    "current_status": {
+      "type": "string"
     }
   }
 }

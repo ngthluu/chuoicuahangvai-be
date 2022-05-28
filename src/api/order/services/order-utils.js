@@ -12,6 +12,9 @@ module.exports = () => ({
         await strapi.service('api::order-status.order-status').create({
             data: data
         });
+        await strapi.service('api::order.order').update(orderId, {
+            data: { current_status: status }
+        })
     },
 
     async createOrderInvoiceFromOrder(orderId) {

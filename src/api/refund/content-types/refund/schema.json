@@ -48,6 +48,10 @@
       "relation": "oneToMany",
       "target": "api::refund-status.refund-status",
       "mappedBy": "refund"
+    },
+    "current_status": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
