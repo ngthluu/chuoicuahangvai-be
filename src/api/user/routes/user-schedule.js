@@ -6,7 +6,7 @@ module.exports = {
       handler: 'user-schedule.getSchedules',
       config: {
         policies: [],
-        middlewares: [],
+        middlewares: ['global::auth-branch-query'],
       },
     },
   ],

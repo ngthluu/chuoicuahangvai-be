@@ -6,7 +6,7 @@ module.exports = {
      handler: 'user.find',
      config: {
        policies: [],
-       middlewares: [],
+       middlewares: ['global::auth-branch-query'],
      },
     },
     {
@@ -15,7 +15,7 @@ module.exports = {
       handler: 'user.findOne',
       config: {
         policies: [],
-        middlewares: [],
+        middlewares: ['global::auth-branch-query'],
       },
     },
     {
@@ -33,7 +33,7 @@ module.exports = {
       handler: 'user.resetPassword',
       config: {
         policies: [],
-        middlewares: [],
+        middlewares: ['global::auth-branch-query'],
       },
     },
     {
