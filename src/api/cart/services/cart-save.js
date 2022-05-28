@@ -72,6 +72,7 @@ const sendOrderConfirmationMail = async (order) => {
       return sum + 0.01 * _.length * _.unit_price
     }, 0),
     DELIVERY_COST: order.delivery_method.amount,
+    DISCOUNT_AMOUNT: order.discount_value ? order.discount_value : 0,
   });
 
   try {
