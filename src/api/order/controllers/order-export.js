@@ -12,7 +12,6 @@ module.exports = {
         populate: [
           'customer',
           'branch',
-          'order_statuses',
           'order_invoice',
           'order_invoice.order_payment_invoices',
         ],
@@ -37,7 +36,7 @@ module.exports = {
         branch_name: item.branch ? item.branch.name : '',
         member_email: item.customer ? item.customer.email : '',
         create_date: item.createdAt,
-        status: item.order_statuses.sort((a, b) => Date.parse(a.createdAt) < Date.parse(b.createdAt) ? 1 : -1)[0].status,
+        status: item.current_status,
         total_amount: item.order_invoice
           ? item.order_invoice.price
           : 0,

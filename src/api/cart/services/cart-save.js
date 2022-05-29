@@ -101,7 +101,7 @@ module.exports = () => ({
         'products.inventory_item',
       ],
       filters: {
-        order_statuses: { status: { $notIn: ['delivery', 'success', 'return', 'cancel'] } }
+        current_status: { $notIn: ['delivery', 'success', 'return', 'cancel'] }
       }
     });
     const pendingInventoryItems = pendingOrders
@@ -216,7 +216,7 @@ module.exports = () => ({
       voucherData = await strapi
         .service('api::voucher.voucher')
         .getAvailableVoucherByCode(voucher.code, user.id, price);
-      voucherDataAmount = voucherData.amount;
+      voucherDataAmount = voucherData ? voucherData.amount : 0;
     }
 
     const items = await this.getSuitableInventoryItems(skus);

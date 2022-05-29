@@ -23,7 +23,6 @@ const getOrdersOfUser = async (userId) => {
     },
     populate: [
       'order_invoice',
-      'order_statuses',
       'receive_address',
       'receive_address.name',
       'receive_address.address',
@@ -52,7 +51,6 @@ const getOrderOfUserById = async (userId, orderId) => {
     },
     populate: [
       'order_invoice',
-      'order_statuses',
       'receive_address',
       'receive_address.name',
       'receive_address.address',
