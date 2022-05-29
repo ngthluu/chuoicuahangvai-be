@@ -12,7 +12,7 @@ module.exports = () => ({
 
     const options = {
       format: "A4",
-      orientation: "portrait",
+      orientation: "landscape",
       border: "10mm",
     };
 
